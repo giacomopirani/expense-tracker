@@ -3,10 +3,11 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import GlobalState from "./context/index.jsx";
 import "./index.css";
+import theme from "./theme.js";
 
 createRoot(document.getElementById("root")).render(
   <GlobalState>
-    <ChakraProvider theme={theme}>
+    <ChakraProvider value={theme}>
       <App />
     </ChakraProvider>
   </GlobalState>
