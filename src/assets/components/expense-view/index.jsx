@@ -1,3 +1,3 @@
 export default function ExpenseView() {
-  return <h1>Expensive Component</h1>;
+  return <h1>ExpensiveView</h1>;
 }
