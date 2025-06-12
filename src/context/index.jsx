@@ -4,7 +4,7 @@ export const GlobalContext = createContext();
 
 const GlobalState = ({ children }) => {
   const [formData, setFormData] = useState({
-    type: "expense",
+    type: "income",
     amount: 0,
     description: "",
   });
@@ -12,7 +12,18 @@ const GlobalState = ({ children }) => {
   const [value, setValue] = useState("expense");
   const [totalExpense, setTotalExpense] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
-  const [allTransaction, setAllTransaction] = useState([]);
+  const [allTransactions, setAllTransactions] = useState([]);
+
+  function handleFormSubmit(currentFormData) {
+    if (!currentFormData.description || !currentFormData.amount) return;
+
+    setAllTransactions([
+      ...allTransactions,
+      { ...currentFormData, id: Date.now() },
+    ]);
+  }
+
+  console.log(allTransactions);
 
   return (
     <GlobalContext.Provider
@@ -25,8 +36,9 @@ const GlobalState = ({ children }) => {
         setTotalExpense,
         totalIncome,
         setTotalIncome,
-        allTransaction,
-        setAllTransaction,
+        allTransactions,
+        setAllTransactions,
+        handleFormSubmit,
       }}
     >
       {children}
