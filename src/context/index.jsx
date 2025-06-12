@@ -1,14 +1,36 @@
 import { createContext, useState } from "react";
 
-export const MyContext = createContext();
+export const GlobalContext = createContext();
 
 const GlobalState = ({ children }) => {
-  const [state, setState] = useState(null);
+  const [formData, setFormData] = useState({
+    type: "expense",
+    amount: 0,
+    description: "",
+  });
+
+  const [value, setValue] = useState("expense");
+  const [totalExpense, setTotalExpense] = useState(0);
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [allTransaction, setAllTransaction] = useState([]);
 
   return (
-    <MyContext.Provider value={{ state, setState }}>
+    <GlobalContext.Provider
+      value={{
+        formData,
+        setFormData,
+        value,
+        setValue,
+        totalExpense,
+        setTotalExpense,
+        totalIncome,
+        setTotalIncome,
+        allTransaction,
+        setAllTransaction,
+      }}
+    >
       {children}
-    </MyContext.Provider>
+    </GlobalContext.Provider>
   );
 };
 
