@@ -40,7 +40,7 @@ export default function Summary({
           mr={"2"}
         >
           <Heading size={"md"} mb={"4"} color={"gray.600"}>
-            Balance is {totalIncome - totalExpense}
+            Balance is {totalIncome - totalExpense} €
           </Heading>
           <Flex
             justifyContent={"space-evenly"}
@@ -82,7 +82,10 @@ export default function Summary({
           justifyContent={"center"}
         >
           <Heading>
-            <TransactionChartSummary expense={100} income={1000} />
+            <TransactionChartSummary
+              expense={totalExpense}
+              income={totalIncome}
+            />
           </Heading>
         </Box>
       </Flex>
