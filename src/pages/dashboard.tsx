@@ -1,5 +1,5 @@
+import { AddExpenseModal } from "../components/expenses/add-expense-modal";
 import Navbar from "../components/layout/navbar";
-import { Button } from "../components/ui/button";
 
 export default function DashboardPage() {
   return (
@@ -8,7 +8,7 @@ export default function DashboardPage() {
       <main className="flex-1 p-4 md:p-6">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold">Dashboard</h1>
-          <Button>Aggiungi spesa</Button>
+          <AddExpenseModal />
         </div>
         {/* Qui andranno i tuoi totali, grafici, ecc. */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
