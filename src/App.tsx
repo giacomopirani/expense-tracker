@@ -1,9 +1,9 @@
-import Navbar from "./components/layout/navbar";
+import DashboardPage from "./pages/dashboard";
 
 function App() {
   return (
     <>
-      <Navbar />
+      <DashboardPage />
     </>
   );
 }
