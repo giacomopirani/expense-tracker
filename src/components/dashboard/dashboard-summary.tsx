@@ -8,6 +8,7 @@ import {
   startOfWeek,
 } from "date-fns";
 import { it } from "date-fns/locale"; // Importa la locale italiana
+import { Calendar, ChartNoAxesCombined } from "lucide-react";
 import { useMemo } from "react";
 import { useExpenseStore } from "../../store/expense-store";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
@@ -56,7 +57,9 @@ export function DashboardSummary() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Spese Oggi</CardTitle>
-          <span className="text-muted-foreground">📅</span>
+          <span className="text-muted-foreground">
+            <Calendar size={20} />
+          </span>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">€{totalToday.toFixed(2)}</div>
@@ -68,7 +71,9 @@ export function DashboardSummary() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Spese Settimana</CardTitle>
-          <span className="text-muted-foreground">🗓️</span>
+          <span className="text-muted-foreground">
+            <Calendar size={20} />
+          </span>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">€{totalWeek.toFixed(2)}</div>
@@ -80,7 +85,9 @@ export function DashboardSummary() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">Spese Mese</CardTitle>
-          <span className="text-muted-foreground">📈</span>
+          <span className="text-muted-foreground">
+            <ChartNoAxesCombined size={20} />
+          </span>
         </CardHeader>
         <CardContent>
           <div className="text-2xl font-bold">€{totalMonth.toFixed(2)}</div>

@@ -80,7 +80,9 @@ export function AddExpenseModal() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>Aggiungi spesa</Button>
+        <Button className="bg-stone-700 hover:bg-stone-500">
+          Aggiungi spesa
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -197,7 +199,10 @@ export function AddExpenseModal() {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full mt-4">
+            <Button
+              type="submit"
+              className="w-full mt-4 bg-stone-700 hover:bg-stone-500"
+            >
               Salva Spesa
             </Button>
           </form>

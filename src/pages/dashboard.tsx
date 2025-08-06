@@ -1,3 +1,5 @@
+import { DashboardSummary } from "../components/dashboard/dashboard-summary";
+import { ExpenseChart } from "../components/dashboard/expense-chart";
 import { AddExpenseModal } from "../components/expenses/add-expense-modal";
 import { ExpenseList } from "../components/expenses/expense-list";
 import Navbar from "../components/layout/navbar";
@@ -11,20 +13,19 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold">Dashboard</h1>
           <AddExpenseModal />
         </div>
-        {/* Qui andranno i tuoi totali, grafici, ecc. */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
-          <div className="bg-muted/50 rounded-lg p-4 h-48 flex items-center justify-center text-muted-foreground">
-            Totali e Grafici
-          </div>
-          <div className="bg-muted/50 rounded-lg p-4 h-48 flex items-center justify-center text-muted-foreground">
-            Sezione Spese
-          </div>
-          <div className="bg-muted/50 rounded-lg p-4 h-48 flex items-center justify-center text-muted-foreground">
-            Altre Informazioni
-          </div>
-        </div>
 
-        {/* Inserisci la lista delle spese qui */}
+        {/* Riepilogo Dashboard */}
+        <section className="mb-8">
+          <DashboardSummary />
+        </section>
+
+        {/* Grafico Spese */}
+        <section className="mb-8">
+          <h2 className="text-xl font-bold mb-4">Analisi Spese</h2>
+          <ExpenseChart />
+        </section>
+
+        {/* Lista Spese */}
         <section>
           <h2 className="text-xl font-bold mb-4">Le tue Spese</h2>
           <ExpenseList />
