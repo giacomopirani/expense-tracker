@@ -14,6 +14,7 @@ import { useExpenseStore } from "../../store/expense-store";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 export function DashboardSummary() {
+  const expenses = useExpenseStore((state) => state.expenses);
   const { getExpensesByDateRange } = useExpenseStore();
 
   const { totalToday, totalWeek, totalMonth } = useMemo(() => {
@@ -50,7 +51,7 @@ export function DashboardSummary() {
     );
 
     return { totalToday, totalWeek, totalMonth };
-  }, [getExpensesByDateRange]);
+  }, [expenses, getExpensesByDateRange]);
 
   return (
     <div className="grid gap-4 md:grid-cols-3">
