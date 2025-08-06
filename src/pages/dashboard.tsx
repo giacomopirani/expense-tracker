@@ -1,4 +1,5 @@
 import { AddExpenseModal } from "../components/expenses/add-expense-modal";
+import { ExpenseList } from "../components/expenses/expense-list";
 import Navbar from "../components/layout/navbar";
 
 export default function DashboardPage() {
@@ -11,7 +12,7 @@ export default function DashboardPage() {
           <AddExpenseModal />
         </div>
         {/* Qui andranno i tuoi totali, grafici, ecc. */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mb-8">
           <div className="bg-muted/50 rounded-lg p-4 h-48 flex items-center justify-center text-muted-foreground">
             Totali e Grafici
           </div>
@@ -22,6 +23,12 @@ export default function DashboardPage() {
             Altre Informazioni
           </div>
         </div>
+
+        {/* Inserisci la lista delle spese qui */}
+        <section>
+          <h2 className="text-xl font-bold mb-4">Le tue Spese</h2>
+          <ExpenseList />
+        </section>
       </main>
     </div>
   );
