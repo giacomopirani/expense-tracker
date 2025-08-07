@@ -1,10 +1,39 @@
-import DashboardPage from "./pages/dashboard";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./components/protected-route";
+import Dashboard from "./pages/dashboard";
+import Login from "./pages/login";
 
 function App() {
   return (
-    <>
-      <DashboardPage />
-    </>
+    <BrowserRouter>
+      <Routes>
+        {/* Public Route */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Protected Route */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Redirect to dashboard if user is already logged in and hits root */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+
+        {/* Catch-all: puoi fare una 404 page qui */}
+        <Route
+          path="*"
+          element={
+            <div className="text-center mt-10 text-2xl">
+              404 - Pagina non trovata
+            </div>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
