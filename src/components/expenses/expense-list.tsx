@@ -8,6 +8,7 @@ import {
   startOfWeek,
 } from "date-fns";
 import { it } from "date-fns/locale"; // Importa la locale italiana
+import { AnimatePresence } from "framer-motion";
 import { useMemo, useState } from "react";
 import { useExpenseStore } from "../../store/expense-store";
 import { ExpenseCard } from "../expenses/expense-card";
@@ -62,9 +63,11 @@ export function ExpenseList() {
             </p>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {filteredExpenses.map((expense) => (
-                <ExpenseCard key={expense.id} expense={expense} />
-              ))}
+              <AnimatePresence>
+                {filteredExpenses.map((expense) => (
+                  <ExpenseCard key={expense.id} expense={expense} />
+                ))}
+              </AnimatePresence>
             </div>
           )}
         </TabsContent>
@@ -75,9 +78,11 @@ export function ExpenseList() {
             </p>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {filteredExpenses.map((expense) => (
-                <ExpenseCard key={expense.id} expense={expense} />
-              ))}
+              <AnimatePresence>
+                {filteredExpenses.map((expense) => (
+                  <ExpenseCard key={expense.id} expense={expense} />
+                ))}
+              </AnimatePresence>
             </div>
           )}
         </TabsContent>
@@ -88,9 +93,11 @@ export function ExpenseList() {
             </p>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {filteredExpenses.map((expense) => (
-                <ExpenseCard key={expense.id} expense={expense} />
-              ))}
+              <AnimatePresence>
+                {filteredExpenses.map((expense) => (
+                  <ExpenseCard key={expense.id} expense={expense} />
+                ))}
+              </AnimatePresence>
             </div>
           )}
         </TabsContent>
