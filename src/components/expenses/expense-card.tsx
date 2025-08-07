@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { it } from "date-fns/locale"; // Importa la locale italiana
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
-import { useExpenseStore } from "../../store/expense-store";
+import { useExpenseStore } from "../../store/use-expense-store";
 import type { Expense } from "../../types/expense";
 import { Button } from "../ui/button";
 import {

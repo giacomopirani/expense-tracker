@@ -10,7 +10,7 @@ import {
 import { it } from "date-fns/locale"; // Importa la locale italiana
 import { Calendar, ChartNoAxesCombined } from "lucide-react";
 import { useMemo } from "react";
-import { useExpenseStore } from "../../store/expense-store";
+import { useExpenseStore } from "../../store/use-expense-store";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 export function DashboardSummary() {

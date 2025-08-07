@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { cn } from "../../lib/utils";
 import type { ExpenseFormValues } from "../../lib/validation";
 import { expenseSchema } from "../../lib/validation";
-import { useExpenseStore } from "../../store/expense-store";
+import { useExpenseStore } from "../../store/use-expense-store";
 import type { Expense } from "../../types/expense";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";

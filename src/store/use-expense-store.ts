@@ -1,16 +1,28 @@
 import { create } from "zustand";
-import type { ExpenseState } from "../types/expense";
+import { ExpenseService } from "../lib/services/expense-service"; // lo aggiungiamo dopo
+import type { Expense, ExpenseState } from "../types/expense";
 
-export const useExpenseStore = create<ExpenseState>((set, get) => ({
-  expenses: [], // Inizializza con un array vuoto di spese
+export const useExpenseStore = create<
+  ExpenseState & {
+    loadExpenses: () => void;
+  }
+>((set, get) => ({
+  expenses: [],
 
-  addExpense: (expense) => {
+  loadExpenses: () => {
+    const loaded = ExpenseService.getExpenses();
+    set({ expenses: loaded });
+  },
+
+  addExpense: (expense: Expense) => {
+    ExpenseService.addExpense(expense);
     set((state) => ({
       expenses: [...state.expenses, expense],
     }));
   },
 
-  deleteExpense: (id) => {
+  deleteExpense: (id: string) => {
+    ExpenseService.deleteExpense(id);
     set((state) => ({
       expenses: state.expenses.filter((expense) => expense.id !== id),
     }));

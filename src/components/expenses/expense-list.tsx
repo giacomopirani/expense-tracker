@@ -10,7 +10,7 @@ import {
 import { it } from "date-fns/locale"; // Importa la locale italiana
 import { AnimatePresence } from "framer-motion";
 import { useMemo, useState } from "react";
-import { useExpenseStore } from "../../store/expense-store";
+import { useExpenseStore } from "../../store/use-expense-store";
 import { ExpenseCard } from "../expenses/expense-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 

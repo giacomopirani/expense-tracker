@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
-import { useExpenseStore } from "../../store/expense-store";
+import { useExpenseStore } from "../../store/use-expense-store";
 import {
   Card,
   CardContent,
