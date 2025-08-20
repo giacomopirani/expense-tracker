@@ -68,7 +68,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-stone-800 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-stone-700 p-4">
       <motion.div
         initial="hidden"
         animate="visible"

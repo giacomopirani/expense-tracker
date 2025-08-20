@@ -1,5 +1,6 @@
 import { LogOut } from "lucide-react";
 
+import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import {
@@ -13,6 +14,7 @@ import {
 
 export default function Navbar() {
   // Mock user data - in a real app, this would come from authentication context
+  const navigate = useNavigate();
   const user = {
     name: "John Doe",
     email: "john.doe@example.com",
@@ -20,9 +22,7 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    console.log("User logged out");
-    // Implement actual logout logic here (e.g., clear session, redirect)
-    alert("User logged out!"); // For demonstration
+    navigate("/login");
   };
 
   return (

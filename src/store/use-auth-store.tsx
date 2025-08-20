@@ -11,7 +11,7 @@ type AuthState = {
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
+  user: AuthService.getUser(),
 
   login: (email, password) => {
     const success = AuthService.login(email, password);
