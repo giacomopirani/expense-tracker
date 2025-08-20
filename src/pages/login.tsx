@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { Variants } from "framer-motion";
 import { motion } from "framer-motion";
+import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -30,6 +31,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -104,7 +106,7 @@ export default function LoginPage() {
                           <Input
                             placeholder="mario.rossi@example.com"
                             {...field}
-                            className="bg-stone-500 border-stone-500 text-stone-700 placeholder:text-stone-300 focus:ring-stone-400"
+                            className="bg-stone-500 border-stone-500 text-white placeholder:text-stone-300 focus:ring-stone-400"
                           />
                         </FormControl>
                         <FormMessage />
@@ -122,12 +124,25 @@ export default function LoginPage() {
                           Password
                         </FormLabel>
                         <FormControl>
-                          <Input
-                            type="password"
-                            placeholder="********"
-                            {...field}
-                            className="bg-stone-600 border-stone-500 text-stone-50 placeholder:text-stone-300 focus:ring-stone-400"
-                          />
+                          <div className="relative">
+                            <Input
+                              type={showPassword ? "text" : "password"}
+                              placeholder="********"
+                              {...field}
+                              className="bg-stone-600 border-stone-500 text-white  placeholder:text-stone-300 focus:ring-stone-400 pr-10"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => setShowPassword(!showPassword)}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 text-white  hover:text-stone-100 transition-colors"
+                            >
+                              {showPassword ? (
+                                <EyeOff className="h-4 w-4" />
+                              ) : (
+                                <Eye className="h-4 w-4" />
+                              )}
+                            </button>
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
