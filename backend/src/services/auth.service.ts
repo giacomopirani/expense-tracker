@@ -1,14 +1,24 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-type User = { id: string; email: string; password: string };
+type User = {
+  id: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+};
 
 const users: User[] = []; // TEMPORANEO
 
 export const register = async ({
+  firstName,
+  lastName,
   email,
   password,
 }: {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }) => {
@@ -16,10 +26,22 @@ export const register = async ({
   if (existing) throw new Error("Email already in use");
 
   const hashed = await bcrypt.hash(password, 10);
-  const user = { id: String(users.length + 1), email, password: hashed };
+  const user = {
+    id: String(users.length + 1),
+    firstName,
+    lastName,
+    email,
+    password: hashed,
+  };
   users.push(user);
 
-  return { id: user.id, email: user.email };
+  // Restituisci anche nome e cognome
+  return {
+    id: user.id,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    email: user.email,
+  };
 };
 
 export const login = async ({
@@ -43,5 +65,14 @@ export const login = async ({
     }
   );
 
-  return { user: { id: user.id, email: user.email }, token };
+  // Restituisci anche nome e cognome
+  return {
+    user: {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+    },
+    token,
+  };
 };
