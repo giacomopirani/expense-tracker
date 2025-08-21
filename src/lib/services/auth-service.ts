@@ -1,25 +1,35 @@
-const AUTH_KEY = "user";
+import type { User } from "../../types/user";
 
 export const AuthService = {
-  login(email: string, password: string): boolean {
-    if (email && password) {
-      const mockUser = { email };
-      localStorage.setItem(AUTH_KEY, JSON.stringify(mockUser));
-      return true;
+  async login(
+    email: string,
+    password: string
+  ): Promise<{ user: User | null; token: string | null }> {
+    // MOCK
+    if (email === "test@test.com" && password === "1234") {
+      const user: User = {
+        id: "1",
+        email,
+        createdAt: new Date().toISOString(),
+      };
+      const token = "mock-jwt";
+      localStorage.setItem("auth", JSON.stringify({ user, token }));
+      return { user, token };
     }
-    return false;
+    return { user: null, token: null };
   },
 
-  logout(): void {
-    localStorage.removeItem(AUTH_KEY);
+  async register(email: string, password: string): Promise<boolean> {
+    // MOCK: finge di registrare
+    return true;
   },
 
-  getUser(): { email: string } | null {
-    const data = localStorage.getItem(AUTH_KEY);
-    return data ? JSON.parse(data) : null;
+  logout() {
+    localStorage.removeItem("auth");
   },
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem(AUTH_KEY);
+  getUser(): { user: User | null; token: string | null } {
+    const raw = localStorage.getItem("auth");
+    return raw ? JSON.parse(raw) : { user: null, token: null };
   },
 };
