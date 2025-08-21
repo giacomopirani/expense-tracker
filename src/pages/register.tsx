@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import type { Variants } from "framer-motion";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
@@ -64,19 +65,33 @@ export default function RegisterPage() {
     setError(null);
     setSuccess(null);
 
-    // Simula una chiamata API
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/register", {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        email: values.email,
+        password: values.password,
+      });
 
-    // Simula controllo email esistente
-    if (values.email === "test@example.com") {
-      setError("Email già registrata. Utilizza un'altra email.");
-    } else {
-      setSuccess("Registrazione completata con successo!");
-      // Reindirizza al login dopo 1.5 secondi
+      // Usa il messaggio dal backend se disponibile, altrimenti uno generico
+      const message =
+        res.data && res.data.message
+          ? res.data.message
+          : "Registrazione completata con successo!";
+      setSuccess(message);
+
+      // Reindirizza dopo 1.5 secondi
       setTimeout(() => {
         navigate("/login");
       }, 1500);
+    } catch (err: any) {
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError("Errore di registrazione. Riprova più tardi.");
+      }
     }
+
     setLoading(false);
   };
 

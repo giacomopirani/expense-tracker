@@ -6,6 +6,7 @@ export const register = async (req: Request, res: Response) => {
     const user = await AuthService.register(req.body);
     res.json(user);
   } catch (err: any) {
+    console.error("Register error:", err);
     res.status(400).json({ message: err.message });
   }
 };
