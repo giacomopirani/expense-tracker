@@ -1,31 +1,41 @@
 import { create } from "zustand";
 import { AuthService } from "../lib/services/auth-service";
-
-type User = { email: string };
+import type { User } from "../types/user";
 
 type AuthState = {
   user: User | null;
-  login: (email: string, password: string) => boolean;
+  token: string | null;
+  login: (email: string, password: string) => Promise<boolean>;
+  register: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
   checkAuth: () => void;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
-  user: AuthService.getUser(),
+  user: null,
+  token: null,
 
-  login: (email, password) => {
-    const success = AuthService.login(email, password);
-    if (success) set({ user: { email } });
+  login: async (email, password) => {
+    const { user, token } = await AuthService.login(email, password);
+    if (user && token) {
+      set({ user, token });
+      return true;
+    }
+    return false;
+  },
+
+  register: async (email, password) => {
+    const success = await AuthService.register(email, password);
     return success;
   },
 
   logout: () => {
     AuthService.logout();
-    set({ user: null });
+    set({ user: null, token: null });
   },
 
   checkAuth: () => {
-    const user = AuthService.getUser();
-    set({ user });
+    const { user, token } = AuthService.getUser();
+    set({ user, token });
   },
 }));

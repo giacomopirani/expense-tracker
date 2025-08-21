@@ -3,7 +3,8 @@ export type Expense = {
   description: string;
   amount: number;
   category: string;
-  date: string; // Formato 'YYYY-MM-DD' per semplicità di confronto
+  date: string;
+  userId: string; // chiave esterna per collegare l'utente
 };
 
 export type ExpenseState = {

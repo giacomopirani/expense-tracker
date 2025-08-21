@@ -1,41 +1,31 @@
 import { create } from "zustand";
-import { ExpenseService } from "../lib/services/expense-service"; // lo aggiungiamo dopo
-import type { Expense, ExpenseState } from "../types/expense";
+import { ExpenseService } from "../lib/services/expense-service";
+import type { Expense } from "../types/expense";
 
-export const useExpenseStore = create<
-  ExpenseState & {
-    loadExpenses: () => void;
-  }
->((set, get) => ({
+type ExpenseState = {
+  expenses: Expense[];
+  fetchExpenses: () => Promise<void>;
+  addExpense: (expense: Omit<Expense, "id" | "userId">) => Promise<void>;
+  deleteExpense: (id: string) => Promise<void>;
+};
+
+export const useExpenseStore = create<ExpenseState>((set) => ({
   expenses: [],
 
-  loadExpenses: () => {
-    const loaded = ExpenseService.getExpenses();
-    set({ expenses: loaded });
+  fetchExpenses: async () => {
+    const expenses = await ExpenseService.getExpenses();
+    set({ expenses });
   },
 
-  addExpense: (expense: Expense) => {
-    ExpenseService.addExpense(expense);
-    set((state) => ({
-      expenses: [...state.expenses, expense],
+  addExpense: async (expense) => {
+    const newExpense = await ExpenseService.addExpense(expense);
+    set((s) => ({ expenses: [...s.expenses, newExpense] }));
+  },
+
+  deleteExpense: async (id) => {
+    await ExpenseService.deleteExpense(id);
+    set((s) => ({
+      expenses: s.expenses.filter((e) => e.id !== id),
     }));
-  },
-
-  deleteExpense: (id: string) => {
-    ExpenseService.deleteExpense(id);
-    set((state) => ({
-      expenses: state.expenses.filter((expense) => expense.id !== id),
-    }));
-  },
-
-  getExpensesByDateRange: (startDate, endDate) => {
-    const allExpenses = get().expenses;
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-
-    return allExpenses.filter((expense) => {
-      const expenseDate = new Date(expense.date);
-      return expenseDate >= start && expenseDate <= end;
-    });
   },
 }));
