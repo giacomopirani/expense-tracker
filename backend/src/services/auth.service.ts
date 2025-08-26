@@ -1,77 +1,73 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import User from "../models/user";
 
-type User = {
-  id: string;
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-};
-
-const users: User[] = []; // TEMPORANEO
-
-export const register = async ({
-  firstName,
-  lastName,
-  email,
-  password,
-}: {
+export const register = async (data: {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
 }) => {
-  const existing = users.find((u) => u.email === email);
-  if (existing) throw new Error("Email already in use");
+  const { firstName, lastName, email, password } = data;
 
-  const hashed = await bcrypt.hash(password, 10);
-  const user = {
-    id: String(users.length + 1),
+  // Controllo se l'utente esiste già
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw new Error("Email già registrata");
+  }
+
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Creo il nuovo utente
+  const user = new User({
     firstName,
     lastName,
     email,
-    password: hashed,
-  };
-  users.push(user);
+    password: hashedPassword,
+  });
 
-  // Restituisci anche nome e cognome
+  await user.save();
+
   return {
-    id: user.id,
-    firstName: user.firstName,
-    lastName: user.lastName,
-    email: user.email,
-  };
-};
-
-export const login = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
-  const user = users.find((u) => u.email === email);
-  if (!user) throw new Error("Invalid credentials");
-
-  const valid = await bcrypt.compare(password, user.password);
-  if (!valid) throw new Error("Invalid credentials");
-
-  const token = jwt.sign(
-    { id: user.id, email: user.email },
-    process.env.JWT_SECRET!,
-    {
-      expiresIn: "1h",
-    }
-  );
-
-  // Restituisci anche nome e cognome
-  return {
+    message: "Registrazione completata con successo",
     user: {
-      id: user.id,
+      id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
+      createdAt: user.createdAt,
+    },
+  };
+};
+
+export const login = async (data: { email: string; password: string }) => {
+  const { email, password } = data;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("Email o password non validi");
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) {
+    throw new Error("Email o password non validi");
+  }
+
+  // Genero token JWT
+  const token = jwt.sign(
+    { id: user._id, email: user.email },
+    process.env.JWT_SECRET as string,
+    { expiresIn: "1d" }
+  );
+
+  return {
+    user: {
+      id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      createdAt: user.createdAt,
     },
     token,
   };

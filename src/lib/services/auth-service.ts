@@ -1,35 +1,29 @@
-import type { User } from "../../types/user";
+import api from "../api/client";
 
 export const AuthService = {
-  async login(
-    email: string,
-    password: string
-  ): Promise<{ user: User | null; token: string | null }> {
-    // MOCK
-    if (email === "test@test.com" && password === "1234") {
-      const user: User = {
-        id: "1",
-        email,
-        createdAt: new Date().toISOString(),
-      };
-      const token = "mock-jwt";
-      localStorage.setItem("auth", JSON.stringify({ user, token }));
-      return { user, token };
-    }
-    return { user: null, token: null };
+  async register(email: string, password: string) {
+    await api.post("/auth/register", { email, password });
+    return true;
   },
 
-  async register(email: string, password: string): Promise<boolean> {
-    // MOCK: finge di registrare
-    return true;
+  async login(email: string, password: string) {
+    const { data } = await api.post("/auth/login", { email, password });
+    // data: { user, token }
+    localStorage.setItem("auth", JSON.stringify(data));
+    return data as { user: { id: string; email: string }; token: string };
   },
 
   logout() {
     localStorage.removeItem("auth");
   },
 
-  getUser(): { user: User | null; token: string | null } {
+  getSession() {
     const raw = localStorage.getItem("auth");
-    return raw ? JSON.parse(raw) : { user: null, token: null };
+    return raw
+      ? (JSON.parse(raw) as {
+          user: { id: string; email: string };
+          token: string;
+        })
+      : null;
   },
 };

@@ -1,11 +1,17 @@
+import { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/protected-route";
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
 import Profile from "./pages/profile";
 import Register from "./pages/register";
+import { useAuthStore } from "./store/use-auth-store";
 
 function App() {
+  const hydrate = useAuthStore((s) => s.hydrate);
+  useEffect(() => {
+    hydrate();
+  }, [hydrate]);
   return (
     <BrowserRouter>
       <Routes>

@@ -1,34 +1,16 @@
 import type { Expense } from "../../types/expense";
-
-const STORAGE_KEY = "expenses";
-
-function getStoredExpenses(): Expense[] {
-  const data = localStorage.getItem(STORAGE_KEY);
-  return data ? JSON.parse(data) : [];
-}
-
-function saveExpenses(expenses: Expense[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(expenses));
-}
+import api from "../api/client";
 
 export const ExpenseService = {
-  getExpenses(): Expense[] {
-    return getStoredExpenses();
+  async list(): Promise<Expense[]> {
+    const { data } = await api.get("/expenses");
+    return data;
   },
-
-  addExpense(expense: Expense): void {
-    const current = getStoredExpenses();
-    const updated = [expense, ...current];
-    saveExpenses(updated);
+  async add(payload: Omit<Expense, "id" | "userId">): Promise<Expense> {
+    const { data } = await api.post("/expenses", payload);
+    return data;
   },
-
-  deleteExpense(id: string): void {
-    const current = getStoredExpenses();
-    const updated = current.filter((e) => e.id !== id);
-    saveExpenses(updated);
-  },
-
-  clearAll(): void {
-    localStorage.removeItem(STORAGE_KEY);
+  async remove(id: string) {
+    await api.delete(`/expenses/${id}`);
   },
 };

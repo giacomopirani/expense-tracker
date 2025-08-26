@@ -2,30 +2,27 @@ import { create } from "zustand";
 import { ExpenseService } from "../lib/services/expense-service";
 import type { Expense } from "../types/expense";
 
-type ExpenseState = {
+type State = {
   expenses: Expense[];
-  fetchExpenses: () => Promise<void>;
-  addExpense: (expense: Omit<Expense, "id" | "userId">) => Promise<void>;
-  deleteExpense: (id: string) => Promise<void>;
+  fetchAll: () => Promise<void>;
+  add: (e: Omit<Expense, "id" | "userId">) => Promise<void>;
+  remove: (id: string) => Promise<void>;
 };
 
-export const useExpenseStore = create<ExpenseState>((set) => ({
+export const useExpenseStore = create<State>((set) => ({
   expenses: [],
-
-  fetchExpenses: async () => {
-    const expenses = await ExpenseService.getExpenses();
-    set({ expenses });
+  fetchAll: async () => {
+    const list = await ExpenseService.list();
+    set({ expenses: list });
   },
-
-  addExpense: async (expense) => {
-    const newExpense = await ExpenseService.addExpense(expense);
-    set((s) => ({ expenses: [...s.expenses, newExpense] }));
+  add: async (e) => {
+    const created = await ExpenseService.add(e);
+    set((s) => ({ expenses: [created, ...s.expenses] }));
   },
-
-  deleteExpense: async (id) => {
-    await ExpenseService.deleteExpense(id);
+  remove: async (id) => {
+    await ExpenseService.remove(id);
     set((s) => ({
-      expenses: s.expenses.filter((e) => e.id !== id),
+      expenses: s.expenses.filter((x) => x._id !== id && x.id !== id),
     }));
   },
 }));

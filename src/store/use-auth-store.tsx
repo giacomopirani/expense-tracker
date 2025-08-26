@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { AuthService } from "../lib/services/auth-service";
-import type { User } from "../types/user";
+
+type User = { id: string; email: string };
 
 type AuthState = {
   user: User | null;
@@ -8,34 +9,31 @@ type AuthState = {
   login: (email: string, password: string) => Promise<boolean>;
   register: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
-  checkAuth: () => void;
+  hydrate: () => void;
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
 
-  login: async (email, password) => {
-    const { user, token } = await AuthService.login(email, password);
-    if (user && token) {
-      set({ user, token });
-      return true;
-    }
-    return false;
+  hydrate: () => {
+    const session = AuthService.getSession();
+    if (session) set({ user: session.user, token: session.token });
   },
 
   register: async (email, password) => {
-    const success = await AuthService.register(email, password);
-    return success;
+    await AuthService.register(email, password);
+    return true;
+  },
+
+  login: async (email, password) => {
+    const session = await AuthService.login(email, password);
+    set({ user: session.user, token: session.token });
+    return true;
   },
 
   logout: () => {
     AuthService.logout();
     set({ user: null, token: null });
-  },
-
-  checkAuth: () => {
-    const { user, token } = AuthService.getUser();
-    set({ user, token });
   },
 }));
