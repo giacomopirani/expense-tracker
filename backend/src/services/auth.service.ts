@@ -54,16 +54,34 @@ export const login = async (data: { email: string; password: string }) => {
     throw new Error("Email o password non validi");
   }
 
+  console.log("🔍 === AUTH SERVICE DEBUG ===");
+  console.log(
+    "JWT_SECRET nel service:",
+    JSON.stringify(process.env.JWT_SECRET)
+  );
+  console.log(
+    "JWT_SECRET hash nel service:",
+    require("crypto")
+      .createHash("md5")
+      .update(process.env.JWT_SECRET || "")
+      .digest("hex")
+  );
+
   // Genero token JWT
   const token = jwt.sign(
-    { id: user._id, email: user.email },
+    {
+      id: user._id.toString(),
+      email: user.email,
+    },
     process.env.JWT_SECRET as string,
     { expiresIn: "1d" }
   );
 
+  console.log("✅ Token creato nel service:", token);
+
   return {
     user: {
-      id: user._id,
+      id: user._id.toString(),
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,

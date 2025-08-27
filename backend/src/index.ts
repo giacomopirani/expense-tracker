@@ -10,8 +10,17 @@ dotenv.config();
 
 const app = express();
 console.log("Server starting...");
-app.use(cors());
-app.use(express.json()); // 👈 importantissimo per leggere il body JSON
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // (Vite dev server)
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"], // 👈 fondamentale
+    methods: ["GET", "POST", "DELETE", "PUT", "OPTIONS"],
+  })
+);
+
+app.use(express.json());
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
 

@@ -10,15 +10,18 @@ export const verifyJWT = (
   res: Response,
   next: NextFunction
 ) => {
-  const auth = req.headers.authorization; // "Bearer token"
+  const auth = req.headers.authorization;
   const token = auth?.split(" ")[1];
+
   if (!token) return res.sendStatus(401);
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET!) as any;
+    console.log("✅ JWT decodificato:", decoded);
     req.user = { id: decoded.id, email: decoded.email };
     next();
-  } catch {
+  } catch (err) {
+    console.error("❌ Errore JWT:", err);
     return res.sendStatus(403);
   }
 };

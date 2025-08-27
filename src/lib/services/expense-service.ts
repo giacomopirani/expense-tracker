@@ -1,32 +1,77 @@
-// src/lib/services/expense-service.ts
 import type { CreateExpense, Expense } from "../../types/expense";
 
-const base = "/api/expenses"; // oppure la tua base url
+const BASE_URL = "http://localhost:5001/api/expenses";
 
-export const ExpenseService = {
-  async list(): Promise<Expense[]> {
-    const res = await fetch(base);
-    if (!res.ok) throw new Error(`Failed to list expenses: ${res.status}`);
-    return (await res.json()) as Expense[];
-  },
+// Funzione helper per ottenere il token correttamente
+const getToken = (): string | null => {
+  const authData = localStorage.getItem("auth");
+  if (!authData) return null;
 
-  async add(payload: CreateExpense): Promise<Expense> {
-    const res = await fetch(base, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-    if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`Failed to add expense: ${res.status} ${text}`);
-    }
-    return (await res.json()) as Expense;
-  },
-
-  async remove(id: string): Promise<void> {
-    const res = await fetch(`${base}/${id}`, { method: "DELETE" });
-    if (!res.ok) throw new Error(`Failed to delete expense ${id}`);
-  },
+  try {
+    const parsed = JSON.parse(authData);
+    return parsed.token || null;
+  } catch (error) {
+    console.error("Errore parsing auth data:", error);
+    return null;
+  }
 };
 
-export default ExpenseService; // opzionale se vuoi default export
+export const ExpenseService = {
+  list: async (): Promise<Expense[]> => {
+    const token = getToken(); // ← Usa la funzione helper
+
+    const res = await fetch(BASE_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to fetch expenses: ${res.status} ${res.statusText}`
+      );
+    }
+
+    return res.json();
+  },
+
+  add: async (expense: CreateExpense): Promise<Expense> => {
+    const token = getToken(); // ← Usa la funzione helper
+
+    if (!token) {
+      throw new Error("Token di autenticazione non trovato");
+    }
+
+    const res = await fetch(BASE_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(expense),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Failed to add expense: ${res.status} ${res.statusText}`);
+    }
+
+    return res.json();
+  },
+
+  remove: async (id: string): Promise<void> => {
+    const token = getToken(); // ← Usa la funzione helper
+
+    const res = await fetch(`${BASE_URL}/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error(
+        `Failed to delete expense: ${res.status} ${res.statusText}`
+      );
+    }
+  },
+};
