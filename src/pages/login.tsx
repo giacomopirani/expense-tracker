@@ -26,12 +26,15 @@ import {
   loginSchema,
   type LoginFormValues,
 } from "../lib/services/auth-schemas";
+import { useAuthStore } from "../store/use-auth-store";
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
+
+  const login = useAuthStore((state) => state.login);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -44,15 +47,15 @@ export default function LoginPage() {
   const onSubmit = async (values: LoginFormValues) => {
     setLoading(true);
     setError(null);
-    // Simula una chiamata API
-    await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    if (values.email === "test@example.com" && values.password === "password") {
-      navigate("/dashboard"); // Reindirizza alla dashboard dopo il login
-    } else {
+    try {
+      await login(values.email, values.password);
+      navigate("/dashboard");
+    } catch (error) {
       setError("Email o password non validi.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const cardVariants = {

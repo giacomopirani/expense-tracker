@@ -7,7 +7,12 @@ type AuthState = {
   user: User | null;
   token: string | null;
   login: (email: string, password: string) => Promise<boolean>;
-  register: (email: string, password: string) => Promise<boolean>;
+  register: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string
+  ) => Promise<boolean>;
   logout: () => void;
   hydrate: () => void;
 };
@@ -21,8 +26,13 @@ export const useAuthStore = create<AuthState>((set) => ({
     if (session) set({ user: session.user, token: session.token });
   },
 
-  register: async (email, password) => {
-    await AuthService.register(email, password);
+  register: async (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string
+  ) => {
+    await AuthService.register(firstName, lastName, email, password);
     return true;
   },
 
