@@ -3,7 +3,6 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { v4 as uuidv4 } from "uuid"; // Per generare ID unici
 
 import type { Variants } from "framer-motion";
 import { motion } from "framer-motion";
@@ -11,7 +10,7 @@ import { cn } from "../../lib/utils";
 import type { ExpenseFormValues } from "../../lib/validation";
 import { expenseSchema } from "../../lib/validation";
 import { useExpenseStore } from "../../store/use-expense-store";
-import type { Expense } from "../../types/expense";
+import type { CreateExpense } from "../../types/expense";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import {
@@ -40,7 +39,6 @@ import {
   SelectValue,
 } from "../ui/select";
 
-// Categorie di esempio
 const categories = [
   "Alimentari",
   "Trasporti",
@@ -61,32 +59,31 @@ export function AddExpenseModal() {
       description: "",
       amount: 0,
       category: "",
-      date: new Date(), // Data predefinita a oggi
+      date: new Date(),
     },
   });
 
   const onSubmit = (values: ExpenseFormValues) => {
-    const newExpense: Expense = {
-      id: uuidv4(), // Genera un ID unico
+    const newExpense: CreateExpense = {
       description: values.description,
       amount: values.amount,
       category: values.category,
-      date: format(values.date, "yyyy-MM-dd"), // Formatta la data come stringa
+      date: format(values.date, "yyyy-MM-dd"),
     };
+
     addExpense(newExpense);
-    form.reset(); // Resetta il form dopo l'invio
-    setIsOpen(false); // Chiudi la modale
+    form.reset();
+    setIsOpen(false);
     console.log("Spesa aggiunta:", newExpense);
   };
 
-  // Varianti per l'animazione a cascata dei campi del form
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.07, // Piccolo ritardo tra ogni elemento figlio
-        delayChildren: 0.1, // Ritardo iniziale prima che il primo figlio si animi
+        staggerChildren: 0.07,
+        delayChildren: 0.1,
       },
     },
   };
@@ -151,8 +148,8 @@ export function AddExpenseModal() {
                     <FormControl>
                       <Input
                         type="number"
-                        step="0.01" // Aggiunto step per valuta
-                        placeholder="0.00" // Aggiunto placeholder
+                        step="0.01"
+                        placeholder="0.00"
                         {...field}
                         onChange={(e) =>
                           field.onChange(
@@ -228,7 +225,6 @@ export function AddExpenseModal() {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          initialFocus
                         />
                       </PopoverContent>
                     </Popover>

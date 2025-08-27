@@ -14,3 +14,5 @@ export type ExpenseState = {
   deleteExpense: (id: string) => void;
   getExpensesByDateRange: (startDate: string, endDate: string) => Expense[];
 };
+
+export type CreateExpense = Omit<Expense, "_id" | "id" | "userId">;

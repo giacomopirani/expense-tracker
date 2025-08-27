@@ -7,15 +7,18 @@ import {
   startOfMonth,
   startOfWeek,
 } from "date-fns";
-import { it } from "date-fns/locale"; // Importa la locale italiana
+import { it } from "date-fns/locale";
 import { Calendar, ChartNoAxesCombined } from "lucide-react";
 import { useMemo } from "react";
 import { useExpenseStore } from "../../store/use-expense-store";
+import type { Expense } from "../../types/expense";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
 export function DashboardSummary() {
   const expenses = useExpenseStore((state) => state.expenses);
-  const { getExpensesByDateRange } = useExpenseStore();
+  const getExpensesByDateRange = useExpenseStore(
+    (state) => state.getExpensesByDateRange
+  );
 
   const { totalToday, totalWeek, totalMonth } = useMemo(() => {
     const today = new Date();
@@ -26,7 +29,7 @@ export function DashboardSummary() {
       format(endOfDay(today), "yyyy-MM-dd")
     );
     const totalToday = expensesToday.reduce(
-      (sum, expense) => sum + expense.amount,
+      (sum: number, expense: Expense) => sum + expense.amount,
       0
     );
 
@@ -36,7 +39,7 @@ export function DashboardSummary() {
       format(endOfWeek(today, { locale: it }), "yyyy-MM-dd")
     );
     const totalWeek = expensesWeek.reduce(
-      (sum, expense) => sum + expense.amount,
+      (sum: number, expense: Expense) => sum + expense.amount,
       0
     );
 
@@ -46,7 +49,7 @@ export function DashboardSummary() {
       format(endOfMonth(today), "yyyy-MM-dd")
     );
     const totalMonth = expensesMonth.reduce(
-      (sum, expense) => sum + expense.amount,
+      (sum: number, expense: Expense) => sum + expense.amount,
       0
     );
 
