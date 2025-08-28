@@ -1,10 +1,22 @@
+import { useEffect } from "react";
 import { DashboardSummary } from "../components/dashboard/dashboard-summary";
 import { ExpenseChart } from "../components/dashboard/expense-chart";
 import { AddExpenseModal } from "../components/expenses/add-expense-modal";
 import { ExpenseList } from "../components/expenses/expense-list";
 import Navbar from "../components/layout/navbar";
+import { useExpenseStore } from "../store/use-expense-store";
 
 export default function DashboardPage() {
+  const { fetchAll } = useExpenseStore();
+
+  // ← Aggiungi questo useEffect
+  useEffect(() => {
+    console.log("🔍 Dashboard mounted - caricando spese dal database");
+    fetchAll().catch((error) => {
+      console.error("❌ Errore caricamento spese:", error);
+    });
+  }, [fetchAll]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />

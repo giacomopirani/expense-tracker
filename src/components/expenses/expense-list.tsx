@@ -65,7 +65,7 @@ export function ExpenseList() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <AnimatePresence>
                 {filteredExpenses.map((expense) => (
-                  <ExpenseCard key={expense.id} expense={expense} />
+                  <ExpenseCard key={expense._id} expense={expense} />
                 ))}
               </AnimatePresence>
             </div>
