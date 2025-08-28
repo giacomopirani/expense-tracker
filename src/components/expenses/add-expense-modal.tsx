@@ -104,7 +104,7 @@ export function AddExpenseModal() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-stone-700 border-2 py-5 border-stone-400 hover:bg-stone-500">
+        <Button className="bg-stone-700 border-2 py-5 border-stone-400 hover:bg-stone-500 hover:cursor-pointer">
           <ShoppingCartIcon className="h-8 w-8" />
           Aggiungi spesa
         </Button>

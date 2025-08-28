@@ -6,7 +6,7 @@ type State = {
   expenses: Expense[];
   fetchAll: () => Promise<void>;
   addExpense: (e: CreateExpense) => Promise<void>; // ✅ qui usa CreateExpense
-  remove: (id: string) => Promise<void>;
+  deleteExpense: (id: string) => Promise<void>;
   getExpensesByDateRange: (start: string, end: string) => Expense[];
 };
 
@@ -20,12 +20,18 @@ export const useExpenseStore = create<State>((set, get) => ({
     const created = await ExpenseService.add(e);
     set((s) => ({ expenses: [created, ...s.expenses] }));
   },
-  remove: async (id) => {
-    await ExpenseService.remove(id);
-    set((s) => ({
-      expenses: s.expenses.filter((x) => x._id !== id && x.id !== id),
-    }));
+  deleteExpense: async (id: string) => {
+    try {
+      await ExpenseService.remove(id);
+      set((state) => ({
+        expenses: state.expenses.filter((e) => e.id !== id),
+        message: "La tua spesa è stata eliminata correttamente ✅",
+      }));
+    } catch (err) {
+      console.error("Errore durante eliminazione:", err);
+    }
   },
+
   getExpensesByDateRange: (start, end) => {
     const { expenses } = get();
 

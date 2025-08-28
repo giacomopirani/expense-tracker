@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { it } from "date-fns/locale"; // Importa la locale italiana
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
+import { useState } from "react";
 import { useExpenseStore } from "../../store/use-expense-store";
 import type { Expense } from "../../types/expense";
 import { Button } from "../ui/button";
@@ -19,13 +20,28 @@ interface ExpenseCardProps {
 
 export function ExpenseCard({ expense }: ExpenseCardProps) {
   const deleteExpense = useExpenseStore((state) => state.deleteExpense);
+  const [deleted, setDeleted] = useState(false);
 
-  const handleDelete = () => {
-    deleteExpense(expense.id);
+  const handleDelete = async () => {
+    await deleteExpense(expense._id);
+    setDeleted(true);
   };
 
   // Formatta la data per la visualizzazione
   const formattedDate = format(new Date(expense.date), "PPP", { locale: it });
+
+  if (deleted) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="p-4 border rounded-lg bg-green-50 text-green-800"
+      >
+        <p>La tua spesa è stata eliminata correttamente</p>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div

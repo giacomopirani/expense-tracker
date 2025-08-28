@@ -52,9 +52,15 @@ export function ExpenseList() {
     <div className="w-full">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="mb-6">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="today">Oggi</TabsTrigger>
-          <TabsTrigger value="week">Settimana</TabsTrigger>
-          <TabsTrigger value="month">Mese</TabsTrigger>
+          <TabsTrigger value="today" className="hover:cursor-pointer">
+            Oggi
+          </TabsTrigger>
+          <TabsTrigger value="week" className="hover:cursor-pointer">
+            Settimana
+          </TabsTrigger>
+          <TabsTrigger value="month" className="hover:cursor-pointer">
+            Mese
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="today" className="mt-4">
           {filteredExpenses.length === 0 ? (
@@ -80,7 +86,7 @@ export function ExpenseList() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <AnimatePresence>
                 {filteredExpenses.map((expense) => (
-                  <ExpenseCard key={expense.id} expense={expense} />
+                  <ExpenseCard key={expense._id} expense={expense} />
                 ))}
               </AnimatePresence>
             </div>
@@ -95,7 +101,7 @@ export function ExpenseList() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <AnimatePresence>
                 {filteredExpenses.map((expense) => (
-                  <ExpenseCard key={expense.id} expense={expense} />
+                  <ExpenseCard key={expense._id} expense={expense} />
                 ))}
               </AnimatePresence>
             </div>

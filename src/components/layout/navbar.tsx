@@ -38,7 +38,10 @@ export default function Navbar() {
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+              <Button
+                variant="ghost"
+                className="relative h-8 w-8 rounded-full hover:cursor-pointer"
+              >
                 <Avatar className="h-8 w-8">
                   <AvatarImage alt={user.email} />
                   <AvatarFallback>{user.email[0].toUpperCase()}</AvatarFallback>
@@ -58,13 +61,19 @@ export default function Navbar() {
               <DropdownMenuSeparator />
 
               {/* Vai al profilo */}
-              <DropdownMenuItem onClick={() => navigate("/profile")}>
+              <DropdownMenuItem
+                onClick={() => navigate("/profile")}
+                className="hover:cursor-pointer"
+              >
                 <User className="mr-2 h-4 w-4" />
                 <span>Profilo</span>
               </DropdownMenuItem>
 
               {/* Logout */}
-              <DropdownMenuItem onClick={handleLogout}>
+              <DropdownMenuItem
+                onClick={handleLogout}
+                className="hover:cursor-pointer"
+              >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Logout</span>
               </DropdownMenuItem>
