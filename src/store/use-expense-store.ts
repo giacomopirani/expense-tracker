@@ -28,6 +28,11 @@ export const useExpenseStore = create<State>((set, get) => ({
   },
   getExpensesByDateRange: (start, end) => {
     const { expenses } = get();
-    return expenses.filter((e) => e.date >= start && e.date <= end);
+
+    return expenses.filter((e) => {
+      // Estrai solo la parte della data (YYYY-MM-DD)
+      const expenseDate = e.date.split("T")[0]; // Rimuove l'orario se presente
+      return expenseDate >= start && expenseDate <= end;
+    });
   },
 }));
