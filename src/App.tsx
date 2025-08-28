@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Toaster } from "sonner";
 import ProtectedRoute from "./components/protected-route";
 import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
@@ -14,6 +15,7 @@ function App() {
   }, [hydrate]);
   return (
     <BrowserRouter>
+      <Toaster />
       <Routes>
         {/* Public Route */}
         <Route path="/login" element={<Login />} />

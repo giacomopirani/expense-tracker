@@ -1,8 +1,7 @@
 import { format } from "date-fns";
-import { it } from "date-fns/locale"; // Importa la locale italiana
+import { it } from "date-fns/locale";
 import { motion } from "framer-motion";
 import { Trash2 } from "lucide-react";
-import { useState } from "react";
 import { useExpenseStore } from "../../store/use-expense-store";
 import type { Expense } from "../../types/expense";
 import { Button } from "../ui/button";
@@ -20,37 +19,21 @@ interface ExpenseCardProps {
 
 export function ExpenseCard({ expense }: ExpenseCardProps) {
   const deleteExpense = useExpenseStore((state) => state.deleteExpense);
-  const [deleted, setDeleted] = useState(false);
 
   const handleDelete = async () => {
-    await deleteExpense(expense._id);
-    setDeleted(true);
+    await deleteExpense(expense._id); //  lo store mostra già il toast
   };
 
-  // Formatta la data per la visualizzazione
   const formattedDate = format(new Date(expense.date), "PPP", { locale: it });
-
-  if (deleted) {
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="p-4 border rounded-lg bg-green-50 text-green-800"
-      >
-        <p>La tua spesa è stata eliminata correttamente</p>
-      </motion.div>
-    );
-  }
 
   return (
     <motion.div
-      layout // Abilita animazioni di layout per riordinamento
-      initial={{ opacity: 0, y: 20 }} // Animazione iniziale (entrata)
-      animate={{ opacity: 1, y: 0 }} // Animazione quando presente
-      exit={{ opacity: 0, x: -50, transition: { duration: 0.2 } }} // Animazione di uscita
-      whileHover={{ scale: 1.02 }} // Animazione al passaggio del mouse
-      transition={{ type: "spring", stiffness: 300, damping: 20 }} // Transizione fluida
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, x: -50, transition: { duration: 0.2 } }}
+      whileHover={{ scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
     >
       <Card className="w-full">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

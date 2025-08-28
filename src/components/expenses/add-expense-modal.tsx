@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 
 import type { Variants } from "framer-motion";
 import { motion } from "framer-motion";
+
 import { cn } from "../../lib/utils";
 import type { ExpenseFormValues } from "../../lib/validation";
 import { expenseSchema } from "../../lib/validation";
@@ -63,18 +64,22 @@ export function AddExpenseModal() {
     },
   });
 
-  const onSubmit = (values: ExpenseFormValues) => {
-    const newExpense: CreateExpense = {
-      description: values.description,
-      amount: values.amount,
-      category: values.category,
-      date: format(values.date, "yyyy-MM-dd"),
-    };
+  const onSubmit = async (values: ExpenseFormValues) => {
+    try {
+      const newExpense: CreateExpense = {
+        description: values.description,
+        amount: values.amount,
+        category: values.category,
+        date: format(values.date, "yyyy-MM-dd"),
+      };
 
-    addExpense(newExpense);
-    form.reset();
-    setIsOpen(false);
-    console.log("Spesa aggiunta:", newExpense);
+      await addExpense(newExpense);
+      form.reset();
+      setIsOpen(false);
+      //  niente toast qui
+    } catch {
+      //  niente toast qui, ci pensa lo store
+    }
   };
 
   const containerVariants = {
