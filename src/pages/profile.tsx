@@ -1,4 +1,4 @@
-import { ArrowLeft } from "lucide-react";
+import { ArrowBigLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import {
@@ -28,7 +28,7 @@ export default function ProfilePage() {
           className="bg-stone-700 hover:bg-stone-500"
           onClick={() => navigate("/dashboard")}
         >
-          <ArrowLeft className="h-20 w-20 text-amber-50" />
+          <ArrowBigLeft className="h-20 w-20 text-amber-50" />
         </Button>
       </div>
       <Card className="w-full max-w-md shadow-lg">

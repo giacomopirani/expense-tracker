@@ -1,7 +1,11 @@
 import { create } from "zustand";
 import { AuthService } from "../lib/services/auth-service";
 
-type User = { id: string; email: string };
+type User = {
+  [x: string]: any;
+  id: string;
+  email: string;
+};
 
 type AuthState = {
   user: User | null;
