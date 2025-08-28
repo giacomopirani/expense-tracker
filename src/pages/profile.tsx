@@ -1,3 +1,5 @@
+import { ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -9,6 +11,7 @@ import { useAuthStore } from "../store/use-auth-store";
 
 export default function ProfilePage() {
   const { user, logout } = useAuthStore();
+  const navigate = useNavigate();
 
   if (!user) {
     return (
@@ -20,6 +23,14 @@ export default function ProfilePage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
+      <div className="absolute top-4 left-4 border-2 rounded-xl ">
+        <Button
+          className="bg-stone-700 hover:bg-stone-500"
+          onClick={() => navigate("/dashboard")}
+        >
+          <ArrowLeft className="h-20 w-20 text-amber-50" />
+        </Button>
+      </div>
       <Card className="w-full max-w-md shadow-lg">
         <CardHeader>
           <CardTitle className="text-xl font-semibold">
