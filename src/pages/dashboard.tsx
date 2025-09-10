@@ -6,14 +6,7 @@ import { ExpenseList } from "../components/expenses/expense-list";
 import Navbar from "../components/layout/navbar";
 import { useExpenseStore } from "../store/use-expense-store";
 
-// 📅 libreria shadcn/ui
-import { Button } from "../components/ui/button";
-import { Calendar } from "../components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "../components/ui/popover";
+import { MonthPicker } from "../components/dashboard/month-picker";
 
 export default function DashboardPage() {
   const { fetchAll } = useExpenseStore();
@@ -29,32 +22,24 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-1 p-4 md:p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold">Dashboard</h1>
-          <div className="flex items-center gap-2">
-            {/* Selettore mese */}
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline">
-                  {selectedMonth
-                    ? selectedMonth.toLocaleDateString("it-IT", {
-                        month: "long",
-                        year: "numeric",
-                      })
-                    : "Seleziona mese"}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent>
-                <Calendar
-                  mode="single"
-                  selected={selectedMonth || undefined}
-                  onSelect={(date) => setSelectedMonth(date ?? null)}
-                />
-              </PopoverContent>
-            </Popover>
+      <main className="flex-1 p-4 md:p-6 w-full max-w-full">
+        {/* Header responsive */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold">Dashboard</h1>
 
-            <AddExpenseModal />
+            {/* Container per i controlli - colonna su mobile, riga da sm in su */}
+            <div className="flex flex-col gap-2 items-end sm:flex-row sm:items-center sm:gap-2">
+              {/* Selettore mese */}
+              <MonthPicker
+                value={selectedMonth}
+                onChange={setSelectedMonth}
+                placeholder="Seleziona mese"
+              />
+
+              {/* Pulsante aggiungi spesa */}
+              <AddExpenseModal />
+            </div>
           </div>
         </div>
 

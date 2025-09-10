@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { CalendarIcon, ShoppingCartIcon } from "lucide-react";
+import { CalendarIcon, CirclePlus } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -110,7 +110,7 @@ export function AddExpenseModal() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button className="bg-stone-700 border-2 py-5 border-stone-400 hover:bg-stone-500 hover:cursor-pointer">
-          <ShoppingCartIcon className="h-8 w-8" />
+          <CirclePlus className="h-8 w-8" />
           Aggiungi spesa
         </Button>
       </DialogTrigger>
