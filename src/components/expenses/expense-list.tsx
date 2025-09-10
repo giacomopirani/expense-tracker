@@ -7,16 +7,16 @@ import {
   startOfMonth,
   startOfWeek,
 } from "date-fns";
-import { it } from "date-fns/locale"; // Importa la locale italiana
+import { it } from "date-fns/locale";
 import { AnimatePresence } from "framer-motion";
 import { useMemo, useState } from "react";
 import { useExpenseStore } from "../../store/use-expense-store";
 import { ExpenseCard } from "../expenses/expense-card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
-export function ExpenseList() {
+export function ExpenseList({ selectedMonth }: { selectedMonth: Date | null }) {
   const { expenses, getExpensesByDateRange } = useExpenseStore();
-  const [activeTab, setActiveTab] = useState("today"); // 'today', 'week', 'month'
+  const [activeTab, setActiveTab] = useState("today");
 
   const filteredExpenses = useMemo(() => {
     const today = new Date();
@@ -29,24 +29,28 @@ export function ExpenseList() {
         endDate = endOfDay(today);
         break;
       case "week":
-        startDate = startOfWeek(today, { locale: it }); // Inizia la settimana di lunedì per l'Italia
+        startDate = startOfWeek(today, { locale: it });
         endDate = endOfWeek(today, { locale: it });
         break;
       case "month":
-        startDate = startOfMonth(today);
-        endDate = endOfMonth(today);
+        if (selectedMonth) {
+          startDate = startOfMonth(selectedMonth);
+          endDate = endOfMonth(selectedMonth);
+        } else {
+          startDate = startOfMonth(today);
+          endDate = endOfMonth(today);
+        }
         break;
       default:
         startDate = startOfDay(today);
         endDate = endOfDay(today);
     }
 
-    // Formatta le date per la funzione getExpensesByDateRange dello store
     const formattedStartDate = format(startDate, "yyyy-MM-dd");
     const formattedEndDate = format(endDate, "yyyy-MM-dd");
 
     return getExpensesByDateRange(formattedStartDate, formattedEndDate);
-  }, [expenses, activeTab, getExpensesByDateRange]); // Dipendenze per useMemo
+  }, [expenses, activeTab, selectedMonth, getExpensesByDateRange]);
 
   return (
     <div className="w-full">
@@ -62,6 +66,7 @@ export function ExpenseList() {
             Mese
           </TabsTrigger>
         </TabsList>
+
         <TabsContent value="today" className="mt-4">
           {filteredExpenses.length === 0 ? (
             <p className="text-center text-muted-foreground">
@@ -77,6 +82,7 @@ export function ExpenseList() {
             </div>
           )}
         </TabsContent>
+
         <TabsContent value="week" className="mt-4">
           {filteredExpenses.length === 0 ? (
             <p className="text-center text-muted-foreground">
@@ -92,6 +98,7 @@ export function ExpenseList() {
             </div>
           )}
         </TabsContent>
+
         <TabsContent value="month" className="mt-4">
           {filteredExpenses.length === 0 ? (
             <p className="text-center text-muted-foreground">

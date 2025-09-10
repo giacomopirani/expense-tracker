@@ -14,14 +14,18 @@ import { useExpenseStore } from "../../store/use-expense-store";
 import type { Expense } from "../../types/expense";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 
-export function DashboardSummary() {
+type DashboardSummaryProps = {
+  selectedMonth: Date | null;
+};
+
+export function DashboardSummary({ selectedMonth }: DashboardSummaryProps) {
   const expenses = useExpenseStore((state) => state.expenses);
   const getExpensesByDateRange = useExpenseStore(
     (state) => state.getExpensesByDateRange
   );
 
   const { totalToday, totalWeek, totalMonth } = useMemo(() => {
-    const today = new Date();
+    const today = selectedMonth ?? new Date();
 
     // Totale Oggi
     const expensesToday = getExpensesByDateRange(
@@ -54,7 +58,7 @@ export function DashboardSummary() {
     );
 
     return { totalToday, totalWeek, totalMonth };
-  }, [expenses, getExpensesByDateRange]);
+  }, [expenses, getExpensesByDateRange, selectedMonth]);
 
   return (
     <div className="grid gap-4 md:grid-cols-3">

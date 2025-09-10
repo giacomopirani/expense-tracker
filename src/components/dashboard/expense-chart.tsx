@@ -10,7 +10,9 @@ import {
 } from "../ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
 
-// Colori statici per le categorie (puoi espanderli o generarli dinamicamente)
+import { endOfMonth, format, startOfMonth } from "date-fns";
+import type { Expense } from "../../types/expense";
+
 const COLORS = [
   "#0088FE",
   "#00C49F",
@@ -21,28 +23,42 @@ const COLORS = [
   "#19FFD4",
 ];
 
-export function ExpenseChart() {
+type ExpenseChartProps = {
+  selectedMonth: Date | null;
+};
+
+export function ExpenseChart({ selectedMonth }: ExpenseChartProps) {
   const expenses = useExpenseStore((state) => state.expenses);
+  const getExpensesByDateRange = useExpenseStore(
+    (state) => state.getExpensesByDateRange
+  );
 
   const data = useMemo(() => {
-    const categoryTotals: { [key: string]: number } = {};
-    expenses.forEach((expense) => {
-      categoryTotals[expense.category] =
-        (categoryTotals[expense.category] || 0) + expense.amount;
+    const today = selectedMonth ?? new Date();
+
+    const monthExpenses: Expense[] = getExpensesByDateRange(
+      format(startOfMonth(today), "yyyy-MM-dd"),
+      format(endOfMonth(today), "yyyy-MM-dd")
+    );
+
+    const categoryTotals: Record<string, number> = {};
+    monthExpenses.forEach((expense) => {
+      const category = expense.category || "Senza categoria";
+      categoryTotals[category] =
+        (categoryTotals[category] || 0) + expense.amount;
     });
 
-    return Object.keys(categoryTotals).map((category) => ({
-      name: category,
-      value: categoryTotals[category],
-    }));
-  }, [expenses]);
+    return Object.entries(categoryTotals)
+      .map(([name, value]) => ({ name, value }))
+      .sort((a, b) => b.value - a.value);
+  }, [expenses, getExpensesByDateRange, selectedMonth]);
 
   return (
     <Card className="w-full">
       <CardHeader>
         <CardTitle>Spese per Categoria</CardTitle>
         <CardDescription>
-          Una ripartizione delle tue spese per categoria.
+          Ripartizione delle spese di questo mese.
         </CardDescription>
       </CardHeader>
       <CardContent className="h-[300px] flex items-center justify-center">
@@ -53,10 +69,9 @@ export function ExpenseChart() {
         ) : (
           <ChartContainer
             config={{
-              // Configurazione colori per ChartTooltipContent (opzionale, ma utile per coerenza)
               ...Object.fromEntries(
                 data.map((item, index) => [
-                  item.name.toLowerCase().replace(/\s/g, "-"), // Genera una chiave CSS valida
+                  item.name.toLowerCase().replace(/\s/g, "-"),
                   { label: item.name, color: COLORS[index % COLORS.length] },
                 ])
               ),
@@ -71,7 +86,6 @@ export function ExpenseChart() {
                   cy="50%"
                   labelLine={false}
                   outerRadius={80}
-                  fill="#8884d8"
                   dataKey="value"
                 >
                   {data.map((_entry, index) => (
