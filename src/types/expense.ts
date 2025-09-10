@@ -12,7 +12,7 @@ export type ExpenseState = {
   expenses: Expense[];
   addExpense: (expense: Expense) => void;
   deleteExpense: (id: string) => void;
-  getExpensesByDateRange: (startDate: string, endDate: string) => Expense[];
+  getExpensesByDateRange: (startDate: Date, endDate: Date) => Expense[];
 };
 
 export type CreateExpense = Omit<Expense, "_id" | "id" | "userId">;

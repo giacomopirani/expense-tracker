@@ -11,7 +11,6 @@ export default function DashboardPage() {
 
   // ← Aggiungi questo useEffect
   useEffect(() => {
-    console.log("🔍 Dashboard mounted - caricando spese dal database");
     fetchAll().catch((error) => {
       console.error("❌ Errore caricamento spese:", error);
     });

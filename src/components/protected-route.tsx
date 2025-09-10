@@ -8,8 +8,6 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { user, isLoading } = useAuthStore();
 
-  console.log("🔍 ProtectedRoute - isLoading:", isLoading, "user:", !!user);
-
   // Mostra loading mentre hydrate() è in corso
   if (isLoading) {
     return (
@@ -24,11 +22,10 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   // Se non c'è utente (dopo il loading), redirect al login
   if (!user) {
-    console.log("❌ No user after loading - redirecting to login");
     return <Navigate to="/login" replace />;
   }
 
   // Se c'è utente, mostra il contenuto protetto
-  console.log("✅ User authenticated - rendering protected content");
+
   return <>{children}</>;
 }

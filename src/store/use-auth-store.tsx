@@ -28,20 +28,16 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoading: true, // ← Inizia come loading
 
   hydrate: () => {
-    console.log("🔍 === HYDRATE START ===");
     try {
       const session = AuthService.getSession();
-      console.log("Session trovata:", session);
 
       if (session) {
-        console.log("✅ Hydrating con session");
         set({
           user: session.user,
           token: session.token,
           isLoading: false, // ← Fine loading
         });
       } else {
-        console.log("❌ Nessuna session");
         set({
           user: null,
           token: null,
@@ -49,7 +45,6 @@ export const useAuthStore = create<AuthState>((set) => ({
         });
       }
     } catch (error) {
-      console.error("❌ Errore hydrate:", error);
       set({
         user: null,
         token: null,
@@ -71,7 +66,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (email, password) => {
     try {
       const session = await AuthService.login(email, password);
-      console.log("✅ Login successful:", session);
+
       set({
         user: session.user,
         token: session.token,
@@ -79,13 +74,11 @@ export const useAuthStore = create<AuthState>((set) => ({
       });
       return true;
     } catch (error) {
-      console.error("❌ Login error:", error);
       throw error;
     }
   },
 
   logout: () => {
-    console.log("🔍 Logout chiamato");
     AuthService.logout();
     set({
       user: null,

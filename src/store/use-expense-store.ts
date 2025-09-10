@@ -45,9 +45,12 @@ export const useExpenseStore = create<State>((set, get) => ({
   getExpensesByDateRange: (start, end) => {
     const { expenses } = get();
 
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
     return expenses.filter((e) => {
-      const expenseDate = e.date.split("T")[0];
-      return expenseDate >= start && expenseDate <= end;
+      const expenseDate = new Date(e.date); //  converte in Date
+      return expenseDate >= startDate && expenseDate <= endDate;
     });
   },
 }));
