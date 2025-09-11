@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import { verifyJWT } from "./middleware/verifyJWT";
 import authRoutes from "./routes/auth.routes";
 import expenseRoutes from "./routes/expense.routes";
+import userRoutes from "./routes/user.route";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.get("/api/health", (_req, res) => res.json({ ok: true }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/expenses", verifyJWT, expenseRoutes); // tutte protette
+app.use("/api/users", verifyJWT, userRoutes);
 
 mongoose.connect(process.env.MONGO_URI!).then(() => {
   console.log("MongoDB connected");

@@ -1,5 +1,9 @@
-export type User = {
-  id: string; // viene dal DB
+export interface User {
+  _id: string;
+  name?: string;
   email: string;
-  createdAt: string; // utile per profilo
-};
+  bio?: string;
+  avatarUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}

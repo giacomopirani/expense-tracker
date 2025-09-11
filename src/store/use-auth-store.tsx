@@ -5,6 +5,9 @@ type User = {
   [x: string]: any;
   id: string;
   email: string;
+  firstName?: string;
+  lastName?: string;
+  createdAt?: string;
 };
 
 type AuthState = {
@@ -20,6 +23,7 @@ type AuthState = {
   ) => Promise<boolean>;
   logout: () => void;
   hydrate: () => void;
+  setUser: (user: User) => void; // 👈 nuovo metodo
 };
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -30,7 +34,6 @@ export const useAuthStore = create<AuthState>((set) => ({
   hydrate: () => {
     set({ isLoading: true });
     try {
-      // puoi anche rendere questo async se validi lato server
       const session = AuthService.getSession();
 
       if (session) {
@@ -61,7 +64,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   login: async (email, password) => {
-    set({ isLoading: true }); // 👈 adesso parte il loader
+    set({ isLoading: true });
     try {
       const session = await AuthService.login(email, password);
 
@@ -84,5 +87,9 @@ export const useAuthStore = create<AuthState>((set) => ({
       token: null,
       isLoading: false,
     });
+  },
+
+  setUser: (user) => {
+    set({ user }); // 👈 aggiorna solo i dati utente
   },
 }));

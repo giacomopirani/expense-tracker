@@ -75,3 +75,34 @@ export const login = async (data: { email: string; password: string }) => {
     token,
   };
 };
+
+export const updateProfile = async (
+  userId: string,
+  data: {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+  }
+) => {
+  const updateData: any = {};
+
+  if (data.firstName) updateData.firstName = data.firstName;
+  if (data.lastName) updateData.lastName = data.lastName;
+  if (data.email) updateData.email = data.email;
+  if (data.password) {
+    updateData.password = await bcrypt.hash(data.password, 10);
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    { $set: updateData },
+    { new: true }
+  ).select("-password"); // non ritorniamo mai la password
+
+  if (!updatedUser) {
+    throw new Error("Utente non trovato");
+  }
+
+  return updatedUser;
+};

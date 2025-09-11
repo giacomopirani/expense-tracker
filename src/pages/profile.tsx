@@ -1,4 +1,5 @@
 import { ArrowBigLeft } from "lucide-react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import {
@@ -10,8 +11,13 @@ import {
 import { useAuthStore } from "../store/use-auth-store";
 
 export default function ProfilePage() {
-  const { user, logout } = useAuthStore();
+  const { user, token, setUser, logout } = useAuthStore();
   const navigate = useNavigate();
+
+  const [firstName, setFirstName] = useState(user?.firstName || "");
+  const [lastName, setLastName] = useState(user?.lastName || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [password, setPassword] = useState("");
 
   if (!user) {
     return (
@@ -20,6 +26,33 @@ export default function ProfilePage() {
       </div>
     );
   }
+
+  const handleUpdate = async () => {
+    try {
+      const res = await fetch("http://localhost:5001/api/auth/update-profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          password: password || undefined,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
+
+      setUser(data.user); // aggiorna lo stato globale
+
+      alert("Profilo aggiornato con successo!");
+    } catch (err: any) {
+      alert(err.message);
+    }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 p-6">
@@ -39,17 +72,44 @@ export default function ProfilePage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <p className="text-sm text-gray-500">Email</p>
-            <p className="font-medium">{user.email}</p>
+            <label className="text-sm text-gray-500">Nome</label>
+            <input
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="w-full border rounded p-2"
+            />
           </div>
-          {user.createdAt && (
-            <div>
-              <p className="text-sm text-gray-500">Registrato il</p>
-              <p className="font-medium">
-                {new Date(user.createdAt).toLocaleDateString("it-IT")}
-              </p>
-            </div>
-          )}
+          <div>
+            <label className="text-sm text-gray-500">Cognome</label>
+            <input
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-full border rounded p-2"
+            />
+          </div>
+          <div>
+            <label className="text-sm text-gray-500">Email</label>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full border rounded p-2"
+            />
+          </div>
+          <div>
+            <label className="text-sm text-gray-500">
+              Nuova Password (opzionale)
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full border rounded p-2"
+            />
+          </div>
+
+          <Button onClick={handleUpdate} className="w-full mt-4">
+            Aggiorna Profilo
+          </Button>
 
           <Button
             onClick={logout}

@@ -12,6 +12,10 @@ const UserSchema = new Schema(
       trim: true,
     },
     password: { type: String, required: true },
+
+    // campi opzionali di profilo
+    bio: { type: String, trim: true, default: "" },
+    avatarUrl: { type: String, trim: true, default: "" },
   },
   { timestamps: true }
 );
