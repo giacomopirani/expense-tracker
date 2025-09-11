@@ -40,9 +40,9 @@ export default function Navbar() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="relative h-8 w-8 rounded-full hover:cursor-pointer"
+                className="relative h-10 w-10 rounded-full hover:cursor-pointer"
               >
-                <Avatar className="h-8 w-8">
+                <Avatar className="h-10 w-10">
                   <AvatarImage alt={user.email} />
                   <AvatarFallback>{user.email[0].toUpperCase()}</AvatarFallback>
                 </Avatar>
