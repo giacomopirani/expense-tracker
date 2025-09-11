@@ -43,8 +43,11 @@ export default function Navbar() {
                 className="relative h-10 w-10 rounded-full hover:cursor-pointer"
               >
                 <Avatar className="h-10 w-10">
-                  <AvatarImage alt={user.email} />
-                  <AvatarFallback>{user.email[0].toUpperCase()}</AvatarFallback>
+                  <AvatarImage alt={user.firstName} />
+                  <AvatarFallback>
+                    {user.firstName?.[0]?.toLocaleUpperCase()}
+                    {user.lastName?.[0]?.toLocaleUpperCase()}
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
@@ -53,7 +56,7 @@ export default function Navbar() {
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
                   <p className="text-sm font-medium leading-none">
-                    {user.email}
+                    {user.firstName} {user.lastName}
                   </p>
                 </div>
               </DropdownMenuLabel>
