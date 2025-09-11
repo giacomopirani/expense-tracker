@@ -1,6 +1,7 @@
 import { ArrowBigLeft } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner"; // 👈 importa sonner
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -48,9 +49,11 @@ export default function ProfilePage() {
 
       setUser(data.user); // aggiorna lo stato globale
 
-      alert("Profilo aggiornato con successo!");
+      // ✅ toast di successo
+      toast.success("Profilo aggiornato con successo!");
     } catch (err: any) {
-      alert(err.message);
+      // ❌ toast di errore
+      toast.error(err.message || "Errore durante l'aggiornamento del profilo");
     }
   };
 

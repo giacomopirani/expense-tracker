@@ -15,7 +15,7 @@ function App() {
   }, [hydrate]);
   return (
     <BrowserRouter>
-      <Toaster />
+      <Toaster richColors position="top-right" />
       <Routes>
         {/* Public Route */}
         <Route path="/login" element={<Login />} />
