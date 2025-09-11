@@ -10,7 +10,7 @@ type User = {
 type AuthState = {
   user: User | null;
   token: string | null;
-  isLoading: boolean; // ← Nuovo stato
+  isLoading: boolean;
   login: (email: string, password: string) => Promise<boolean>;
   register: (
     firstName: string,
@@ -25,45 +25,43 @@ type AuthState = {
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
-  isLoading: true, // ← Inizia come loading
+  isLoading: true, // parte come true
 
   hydrate: () => {
+    set({ isLoading: true });
     try {
+      // puoi anche rendere questo async se validi lato server
       const session = AuthService.getSession();
 
       if (session) {
         set({
           user: session.user,
           token: session.token,
-          isLoading: false, // ← Fine loading
+          isLoading: false,
         });
       } else {
         set({
           user: null,
           token: null,
-          isLoading: false, // ← Fine loading
+          isLoading: false,
         });
       }
     } catch (error) {
       set({
         user: null,
         token: null,
-        isLoading: false, // ← Fine loading anche in caso di errore
+        isLoading: false,
       });
     }
   },
 
-  register: async (
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string
-  ) => {
+  register: async (firstName, lastName, email, password) => {
     await AuthService.register(firstName, lastName, email, password);
     return true;
   },
 
   login: async (email, password) => {
+    set({ isLoading: true }); // 👈 adesso parte il loader
     try {
       const session = await AuthService.login(email, password);
 
@@ -74,6 +72,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       });
       return true;
     } catch (error) {
+      set({ isLoading: false });
       throw error;
     }
   },
