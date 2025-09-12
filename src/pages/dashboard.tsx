@@ -26,7 +26,7 @@ export default function DashboardPage() {
         {/* Header responsive */}
         <div className="mb-6">
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold">Dashboard</h1>
+            <h1 className="text-2xl font-bold">Dashboard Personale</h1>
 
             {/* Container per i controlli - colonna su mobile, riga da sm in su */}
             <div className="flex flex-col gap-2 items-end sm:flex-row sm:items-center sm:gap-2">
