@@ -49,12 +49,23 @@ export function computeNetBalances(expenses: Expense[]): NetBalance[] {
   }));
 }
 
-export function simplifyDebts(balances: NetBalance[]): SimplifiedTx[] {
+export function simplifyDebts(
+  balances: NetBalance[],
+  minAmountCents: number = 1 // Soglia minima per evitare transazioni di 1 centesimo
+): SimplifiedTx[] {
+  // Filtra bilanci troppo piccoli (opzionale)
+  const filteredBalances = balances.map((b) => ({
+    ...b,
+    netCents: Math.abs(b.netCents) < minAmountCents ? 0 : b.netCents,
+  }));
+
   // creditors: net > 0, debtors: net < 0
-  const creditors = balances
+  const creditors = filteredBalances
     .filter((b) => b.netCents > 0)
     .map((b) => ({ ...b }));
-  const debtors = balances.filter((b) => b.netCents < 0).map((b) => ({ ...b }));
+  const debtors = filteredBalances
+    .filter((b) => b.netCents < 0)
+    .map((b) => ({ ...b }));
 
   creditors.sort((a, b) => b.netCents - a.netCents);
   debtors.sort((a, b) => a.netCents - b.netCents); // most negative first
@@ -68,7 +79,10 @@ export function simplifyDebts(balances: NetBalance[]): SimplifiedTx[] {
     const debt = debtors[j];
     const amount = Math.min(credit.netCents, -debt.netCents);
 
-    txs.push({ from: debt.userId, to: credit.userId, amountCents: amount });
+    // Solo se l'importo è significativo
+    if (amount >= minAmountCents) {
+      txs.push({ from: debt.userId, to: credit.userId, amountCents: amount });
+    }
 
     credit.netCents -= amount;
     debt.netCents += amount;
@@ -78,4 +92,22 @@ export function simplifyDebts(balances: NetBalance[]): SimplifiedTx[] {
   }
 
   return txs;
+}
+
+// Utility per formattare importi in euro
+export function formatCurrency(
+  cents: number,
+  currency: string = "EUR"
+): string {
+  const euros = cents / 100;
+  return new Intl.NumberFormat("it-IT", {
+    style: "currency",
+    currency: currency,
+  }).format(euros);
+}
+
+// Utility per verificare se i bilanci sono corretti (somma = 0)
+export function validateBalances(balances: NetBalance[]): boolean {
+  const total = balances.reduce((sum, b) => sum + b.netCents, 0);
+  return Math.abs(total) < 1; // Tolleranza di 1 centesimo per arrotondamenti
 }
