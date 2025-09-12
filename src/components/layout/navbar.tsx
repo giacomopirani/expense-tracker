@@ -1,4 +1,3 @@
-// src/components/layout/navbar.tsx
 import { LogOut, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/use-auth-store";

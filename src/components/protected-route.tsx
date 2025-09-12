@@ -1,4 +1,3 @@
-import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuthStore } from "../store/use-auth-store";
@@ -22,10 +21,13 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   if (isLoading || !isMinTimeElapsed) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-white">
+      <div className="flex items-center justify-center min-h-screen bg-stone-800">
         <div className="text-center">
-          <LoaderCircle className="animate-spin h-12 w-12 mx-auto text-stone-700" />
-          <p className="mt-4 text-stone-700">Caricamento dei tuoi dati</p>
+          <img
+            src="/src/assets/logo.png"
+            alt="App Logo"
+            className="h-26 w-26 rounded-full animate-bounce border-2 border-stone-500"
+          />
         </div>
       </div>
     );
