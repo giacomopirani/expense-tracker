@@ -1,11 +1,18 @@
 import { LuTrendingUpDown } from "react-icons/lu";
 import GraphicCard from "../../assets/img/graphic-card.jpeg";
+import Logo from "../../assets/img/logo.png";
 
 const AuthLayout = ({ children }) => {
   return (
     <div className="flex">
-      <div className="w-screen h-screen md:w-[60vw] px-12 pt-8 pb-12">
-        <h2 className="text-lg font-medium text-black">Expense Tracker</h2>
+      <div className="w-screen h-screen md:w-[60vw] px-12 pt-8 pb-12 ">
+        <div className="flex justify-center mb-8">
+          <img
+            src={Logo}
+            alt="logo"
+            className="w-40 mb-8 rounded-full border-3 border-stone-500 "
+          />
+        </div>
         {children}
       </div>
 

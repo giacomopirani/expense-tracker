@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/inputs/input";
 import AuthLayout from "../../components/layouts/authLayout";
 
@@ -14,9 +14,9 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      <div className="lg:w-[70%] h-3/4 md:h-full flex flex-col justify-center">
-        <h3 className="text-xl font-semibold text-stone-800">Benvenuto</h3>
-        <p className="text-xs text-stone-600 mt-[5px] mb-6">
+      <div className="lg:w-[70%] h-3/4 md:h-full flex flex-col justify-start mt-20 mx-auto">
+        <h3 className="text-2xl font-semibold text-stone-800">Benvenuto</h3>
+        <p className="text-xm text-stone-600 mt-[5px] mb-6">
           Inserisci i tuoi dati per effettuare il login
         </p>
 
@@ -28,6 +28,30 @@ const Login = () => {
             type="text"
             placeholder="giacomopirani@example.com"
           />
+
+          <Input
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+            label="Password"
+            type="password"
+            placeholder="Minimo 8 caratteri"
+          />
+
+          {error && <p className="text-red-500 text-sm my-2">{error}</p>}
+
+          <button
+            type="submit"
+            className="w-full bg-primary text-white py-3 rounded-lg mt-6 hover:bg-stone-500 transition"
+          >
+            Login
+          </button>
+
+          <p className="text-[13px] text-stone-800 mt-3">
+            Non hai un account?{" "}
+            <Link className="font-medium underline " to="/signup">
+              Clicca qui
+            </Link>
+          </p>
         </form>
       </div>
     </AuthLayout>
