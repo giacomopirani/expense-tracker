@@ -41,7 +41,7 @@ const SignUp = () => {
 
   return (
     <AuthLayout>
-      <div className="lg:w-[100%] h-auto md:h-full mt-10 md:mt-0 flex flex-col justify-center">
+      <div className="lg:w-[100%] h-auto mt-10 md:mt-10 flex flex-col justify-start">
         <h3 className="text-xl font-semibold text-stone-800">
           Crea il tuo Account
         </h3>
@@ -49,34 +49,34 @@ const SignUp = () => {
           Entra oggi e inserisci i tuoi dettagli qui sotto.
         </p>
 
-        <form onSubmit={handleSignUp}>
+        <form onSubmit={handleSignUp} className="mb-6">
           <ProfilePhotoSelect image={profilePic} setImage={setProfilePic} />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              value={fullName}
-              onChange={({ target }) => setFullName(target.value)}
-              label="Nome"
-              placeholder="Giacomo"
-              type="text"
-            />
-            <Input
-              value={email}
-              onChange={({ target }) => setEmail(target.value)}
-              label="Email"
-              type="text"
-              placeholder="giacomopirani@example.com"
-            />
-
-            <div className="col-span-2">
+          <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <Input
-                value={password}
-                onChange={({ target }) => setPassword(target.value)}
-                label="Password"
-                type="password"
-                placeholder="Minimo 8 caratteri"
+                value={fullName}
+                onChange={({ target }) => setFullName(target.value)}
+                label="Nome"
+                placeholder="Giacomo"
+                type="text"
+              />
+              <Input
+                value={email}
+                onChange={({ target }) => setEmail(target.value)}
+                label="Email"
+                type="text"
+                placeholder="giacomopirani@example.com"
               />
             </div>
+
+            <Input
+              value={password}
+              onChange={({ target }) => setPassword(target.value)}
+              label="Password"
+              type="password"
+              placeholder="Minimo 8 caratteri"
+            />
           </div>
           {error && <p className="text-red-500 text-sm my-2">{error}</p>}
 

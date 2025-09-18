@@ -6,11 +6,11 @@ const AuthLayout = ({ children }) => {
   return (
     <div className="flex">
       <div className="w-screen h-screen md:w-[60vw] px-12 pt-8 pb-12 ">
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center">
           <img
             src={Logo}
             alt="logo"
-            className="w-40 mb-8 rounded-full border-3 border-stone-500 "
+            className="w-40 rounded-full border-3 border-stone-500 "
           />
         </div>
         {children}

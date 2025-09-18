@@ -31,7 +31,7 @@ const Login = () => {
 
   return (
     <AuthLayout>
-      <div className="lg:w-[70%] h-3/4 md:h-full flex flex-col justify-start mt-20 mx-auto">
+      <div className="lg:w-[70%] h-3/4 flex flex-col justify-start mt-10 mx-auto">
         <h3 className="text-2xl font-semibold text-stone-800">Benvenuto</h3>
         <p className="text-xm text-stone-600 mt-[5px] mb-6">
           Inserisci i tuoi dati per effettuare il login
