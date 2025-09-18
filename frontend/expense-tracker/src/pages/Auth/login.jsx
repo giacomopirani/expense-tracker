@@ -26,7 +26,7 @@ const Login = () => {
 
     setError("");
 
-    //API call
+    //API call login
   };
 
   return (
@@ -41,7 +41,7 @@ const Login = () => {
           <Input
             value={email}
             onChange={({ target }) => setEmail(target.value)}
-            label="Email Address"
+            label="Email"
             type="text"
             placeholder="giacomopirani@example.com"
           />
@@ -65,7 +65,7 @@ const Login = () => {
 
           <p className="text-[13px] text-stone-800 mt-3">
             Non hai un account?{" "}
-            <Link className="font-medium underline " to="/signup">
+            <Link className="font-medium hover:underline " to="/signup">
               Clicca qui
             </Link>
           </p>
