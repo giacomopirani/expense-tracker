@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/inputs/input";
 import AuthLayout from "../../components/layouts/authLayout";
+import { validateEmail } from "../../utils/helper";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +11,23 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {};
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!validateEmail(email)) {
+      setError("Per favore inserisci un'email valida.");
+      return;
+    }
+
+    if (!password) {
+      setError("Per favore inserisci la password.");
+      return;
+    }
+
+    setError("");
+
+    //API call
+  };
 
   return (
     <AuthLayout>
