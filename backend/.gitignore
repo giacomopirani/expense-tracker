@@ -1,0 +1,14 @@
+# Environment files 
+.env
+.env.local
+.env.production
+.env.staging
+
+# Backend specific 
+node_modules/
+dist/
+logs/
+*.log
+
+# General
+.DS_Store
