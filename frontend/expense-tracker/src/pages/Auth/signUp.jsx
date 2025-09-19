@@ -21,16 +21,16 @@ const SignUp = () => {
     let profileImageUrl = "";
 
     if (!fullName) {
-      setError("Per favore inserisci il tuo nome");
+      setError("Please enter your name.");
       return;
     }
 
     if (!validateEmail(email)) {
-      setError("Per favore inserisci una email valida.");
+      setError("Please enter a valid email.");
     }
 
     if (!password) {
-      setError("Per favore inserisci la password");
+      setError("Please enter your password.");
       return;
     }
 
@@ -43,10 +43,10 @@ const SignUp = () => {
     <AuthLayout>
       <div className="lg:w-[100%] h-auto mt-10 md:mt-10 flex flex-col justify-start">
         <h3 className="text-xl font-semibold text-stone-800">
-          Crea il tuo Account
+          Create your Account
         </h3>
         <p className="text-xm text-stone-600 mt-[5px] mb-6">
-          Entra oggi e inserisci i tuoi dettagli qui sotto.
+          Enter today and enter your details below.
         </p>
 
         <form onSubmit={handleSignUp} className="mb-6">
@@ -57,8 +57,8 @@ const SignUp = () => {
               <Input
                 value={fullName}
                 onChange={({ target }) => setFullName(target.value)}
-                label="Nome"
-                placeholder="Giacomo"
+                label="Name"
+                placeholder="John"
                 type="text"
               />
               <Input
@@ -66,7 +66,7 @@ const SignUp = () => {
                 onChange={({ target }) => setEmail(target.value)}
                 label="Email"
                 type="text"
-                placeholder="giacomopirani@example.com"
+                placeholder="johnlorkan@example.com"
               />
             </div>
 
@@ -75,7 +75,7 @@ const SignUp = () => {
               onChange={({ target }) => setPassword(target.value)}
               label="Password"
               type="password"
-              placeholder="Minimo 8 caratteri"
+              placeholder="Minimum 8 characters"
             />
           </div>
           {error && <p className="text-red-500 text-sm my-2">{error}</p>}
@@ -88,9 +88,9 @@ const SignUp = () => {
           </button>
 
           <p className="text-[13px] text-stone-800 mt-3">
-            Possiedi già un account?{" "}
+            Do you already have an account?{" "}
             <Link className="font-medium hover:underline " to="/login">
-              Clicca qui
+              Login
             </Link>
           </p>
         </form>

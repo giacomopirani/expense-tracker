@@ -24,7 +24,7 @@ const AuthLayout = ({ children }) => {
         <div className="grid grid-cols-1 z-20 absolute top-12 right-2 ">
           <InfoCard
             icon={<LuTrendingUpDown />}
-            label="Traccia le tue Entrate e Uscite"
+            label="Track your Income and Expenses"
             value="270,000"
             color="bg-primary"
           />
