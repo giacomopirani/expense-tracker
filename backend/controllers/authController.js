@@ -63,10 +63,10 @@ exports.loginUser = async (req, res) => {
 //Get User info
 exports.getUserInfo = async (req, res) => {
   try {
-    const user = await User.findOne(res.user.id).select("-password");
+    const user = await User.findOne({ _id: req.user.id }).select("-password");
 
     if (!user) {
-      return res.status(404).jason({ message: "User not found" });
+      return res.status(404).json({ message: "User not found" });
     }
 
     res.status(200).json(user);
