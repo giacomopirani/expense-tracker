@@ -29,9 +29,20 @@ exports.registerUser = async (req, res) => {
       password,
       profileImageUrl,
     });
+
+    res.status(201).json({
+      id: user._id,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        profileImageUrl: user.profileImageUrl,
+      },
+      token: generateToken(user._id),
+    });
   } catch (err) {
     res
-      .staus(500)
+      .status(500)
       .json({ message: "Error registering user", error: err.message });
   }
 };

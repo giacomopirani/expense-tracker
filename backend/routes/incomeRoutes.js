@@ -14,4 +14,4 @@ router.get("/get", protect, getAllIncome);
 router.get("/downloadedexcel", protect, downloadIncomeExcel);
 router.delete("/:id", protect, deleteIncome);
 
-module.export = router;
+module.exports = router;
