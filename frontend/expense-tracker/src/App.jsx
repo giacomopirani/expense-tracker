@@ -4,6 +4,7 @@ import {
   BrowserRouter as Router,
   Routes,
 } from "react-router-dom";
+import UserProvider from "./context/useContext";
 import Login from "./pages/Auth/Login";
 import SignUp from "./pages/Auth/signUp";
 import Expense from "./pages/Dashboard/expense";
@@ -12,7 +13,7 @@ import Income from "./pages/Dashboard/income";
 
 const App = () => {
   return (
-    <div>
+    <UserProvider>
       <Router>
         <Routes>
           <Route path="/" element={<Root />} />
@@ -23,7 +24,7 @@ const App = () => {
           <Route path="/expense" element={<Expense />} />
         </Routes>
       </Router>
-    </div>
+    </UserProvider>
   );
 };
 
