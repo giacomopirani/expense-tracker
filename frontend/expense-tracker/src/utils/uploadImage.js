@@ -12,7 +12,7 @@ const uploadImage = async (imageFile) => {
       formData,
       {
         headers: {
-          "Constent-Type": "multipart/form-data",
+          "Content-Type": "multipart/form-data",
         },
       }
     );

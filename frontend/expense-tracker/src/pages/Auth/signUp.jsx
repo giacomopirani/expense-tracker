@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/inputs/input";
 import ProfilePhotoSelect from "../../components/inputs/profilePhotoSelect";
 import AuthLayout from "../../components/layouts/authLayout";
+import { UserContext } from "../../context/useContext";
+import { API_PATHS } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance";
 import { validateEmail } from "../../utils/helper";
+import uploadImage from "../../utils/uploadImage";
 
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -13,6 +17,7 @@ const SignUp = () => {
 
   const [error, setError] = useState(null);
 
+  const { updateUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
@@ -27,6 +32,7 @@ const SignUp = () => {
 
     if (!validateEmail(email)) {
       setError("Please enter a valid email.");
+      return;
     }
 
     if (!password) {
@@ -37,6 +43,36 @@ const SignUp = () => {
     setError("");
 
     // API call sigUp
+    try {
+      //Upload image if present
+      if (profilePic) {
+        const imgUploadRes = await uploadImage(profilePic);
+        profileImageUrl = imgUploadRes.imageUrl || "";
+      }
+
+      const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
+        fullName,
+        email,
+        password,
+        profileImageUrl,
+      });
+
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser(user);
+        navigate("/dashboard");
+      } else {
+        setError("Registration successful but no token received");
+      }
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong, Please try again.");
+      }
+    }
   };
 
   return (
