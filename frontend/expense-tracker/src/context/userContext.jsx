@@ -10,6 +10,12 @@ const UserProvider = ({ children }) => {
     setUser(userData);
   };
 
+  // Function to clear user data (logout)
+  const clearUser = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+  };
+
   return (
     <UserContext.Provider value={{ user, updateUser, clearUser }}>
       {children}
