@@ -6,7 +6,7 @@ const FinanceOverview = ({ totalBalance, totalIncome, totalExpense }) => {
   const balanceData = [
     { name: "Total Balance", amount: totalBalance },
     { name: "Total Expenses", amount: totalExpense },
-    { name: "Total Income", amoun: totalIncome },
+    { name: "Total Income", amount: totalIncome },
   ];
 
   return (
