@@ -21,3 +21,11 @@
 .input-box {
   @apply w-full flex justify-between gap-3 text-sm text-black bg-stone-300 rounded px-4 py-3 mb-4 mt-3 border border-stone-700 outline-none;
 }
+
+.card {
+  @apply bg-white p-6 rounded-2xl shadow-md shadow-stone-100 border-stone-200/50;
+}
+
+.card-btn {
+  @apply flex items-center gap-3 text-[12px] font-medium text-stone-700 hover:text-stone-500 bg-gray-50 hover:bg-stone-300 px-4 py-1.5 rounded-lg border-stone-200/50 cursor-pointer;
+}
