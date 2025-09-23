@@ -2,12 +2,12 @@ import moment from "moment";
 import { LuArrowRight } from "react-icons/lu";
 import TransactionInfoCard from "../cards/transactionInfoCard";
 
-const ExpenseTransactions = ({ transactions, onSeeMore }) => {
+const RecentIncome = ({ transactions, onSeeMore }) => {
   return (
     <div className="card">
       <div className="flex items-center justify-between">
         <h5 className="text-lg text-white bg-stone-700 p-0.5 px-2 rounded-sm border-2 border-stone-400">
-          Expenses
+          Income
         </h5>
 
         <button className="card-btn" onClick={onSeeMore}>
@@ -16,14 +16,14 @@ const ExpenseTransactions = ({ transactions, onSeeMore }) => {
       </div>
 
       <div className="mt-6">
-        {transactions?.slice(0, 5)?.map((expense) => (
+        {transactions?.slice(0, 5)?.map((item) => (
           <TransactionInfoCard
-            key={expense._id}
-            title={expense.category}
-            icon={expense.icon}
-            date={moment(expense.date).format("Do MMM YYYY")}
-            amount={expense.amount}
-            type="expense"
+            key={item._id}
+            title={item.source}
+            icon={item.icon}
+            date={moment(item.date).format("Do MMM YYYY")}
+            amount={item.amount}
+            type="income"
             hideDeleteBtn
           />
         ))}
@@ -32,4 +32,4 @@ const ExpenseTransactions = ({ transactions, onSeeMore }) => {
   );
 };
 
-export default ExpenseTransactions;
+export default RecentIncome;
