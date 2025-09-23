@@ -6,9 +6,7 @@ const RecentIncome = ({ transactions, onSeeMore }) => {
   return (
     <div className="card">
       <div className="flex items-center justify-between">
-        <h5 className="text-lg text-white bg-stone-700 p-0.5 px-2 rounded-sm border-2 border-stone-400">
-          Income
-        </h5>
+        <h5 className="text-2xl text-green-800 font-bold">Income</h5>
 
         <button className="card-btn" onClick={onSeeMore}>
           See All <LuArrowRight className="text-base" />
