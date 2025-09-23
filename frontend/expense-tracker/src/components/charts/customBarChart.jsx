@@ -10,119 +10,96 @@ import {
 } from "recharts";
 
 const CustomBarChart = ({ data }) => {
-  // DEBUG: Stampa i dati per capire la struttura
-  console.log("=== CHART DATA DEBUG ===");
-  console.log("Raw data:", data);
-  console.log("Data type:", typeof data);
-  console.log("Is array:", Array.isArray(data));
-  console.log("Data length:", data?.length);
-  if (data?.length > 0) {
-    console.log("First item:", data[0]);
-    console.log("First item keys:", Object.keys(data[0]));
-  }
-
-  // Validazione e trasformazione dati
-  let chartData = [];
-
-  if (!data) {
-    console.log("No data provided");
+  // Validazione dei dati
+  if (!data || !Array.isArray(data) || data.length === 0) {
     return (
-      <div className="bg-white mt-6 p-4 text-center">
-        Nessun dato disponibile
+      <div className="bg-white mt-6 h-80 flex items-center justify-center border border-gray-200 rounded-lg">
+        <p className="text-gray-500">Nessun dato da visualizzare</p>
       </div>
     );
   }
 
-  // Se data non è un array, prova a convertirlo
-  if (!Array.isArray(data)) {
-    console.log("Data is not array, trying to convert...");
-    if (data.transactions && Array.isArray(data.transactions)) {
-      chartData = data.transactions;
-    } else {
-      chartData = [data]; // Converte oggetto singolo in array
+  // Colori moderni e attraenti
+  const getBarColor = (index, isHovered = false) => {
+    const colors = [
+      "#3b82f6", // Blue
+      "#ef4444", // Red
+      "#10b981", // Green
+      "#f59e0b", // Yellow
+      "#8b5cf6", // Purple
+      "#06b6d4", // Cyan
+      "#f97316", // Orange
+      "#84cc16", // Lime
+    ];
+
+    if (isHovered) {
+      return colors[index % colors.length] + "dd"; // Slightly transparent on hover
     }
-  } else {
-    chartData = data;
-  }
 
-  // Se ancora non abbiamo dati validi
-  if (!chartData || chartData.length === 0) {
-    return (
-      <div className="bg-white mt-6 p-4 text-center">
-        Nessun dato da visualizzare
-      </div>
-    );
-  }
-
-  // function to alternate colors
-  const getBarColor = (index) => {
-    return index % 2 === 0 ? "#44403c" : "#57534e";
+    return colors[index % colors.length];
   };
 
-  const CustomTooltip = ({ active, payload }) => {
+  const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      const data = payload[0].payload;
       return (
-        <div className="bg-white shadow-md rounded-lg p-2 border border-stone-300">
-          <p className="text-xs font-semibold text-stone-800 mb-1">
-            {data.category || data.month || data.name || "Categoria"}
+        <div className="bg-white shadow-lg rounded-lg p-3 border border-gray-200 min-w-32">
+          <p className="text-sm font-semibold text-gray-800 mb-2 capitalize">
+            {payload[0].payload.category || label}
           </p>
-          <p className="text-sm text-gray-600">
-            Amount:{" "}
-            <span className="text-sm font-medium text-stone-800 ">
-              € {data.amount || data.value || 0}
+          <div className="flex items-center gap-2">
+            <div
+              className="w-3 h-3 rounded-full"
+              style={{ backgroundColor: payload[0].color }}
+            />
+            <span className="text-sm text-gray-600">€</span>
+            <span className="text-lg font-bold text-gray-900">
+              {payload[0].value.toLocaleString()}
             </span>
-          </p>
+          </div>
         </div>
       );
     }
     return null;
   };
 
-  // Determina la chiave per l'asse X
-  const xAxisKey = chartData[0]?.category
-    ? "category"
-    : chartData[0]?.month
-    ? "month"
-    : chartData[0]?.name
-    ? "name"
-    : "category";
-
-  // Determina la chiave per l'altezza delle barre
-  const yAxisKey = chartData[0]?.amount
-    ? "amount"
-    : chartData[0]?.value
-    ? "value"
-    : "amount";
-
-  console.log("Using X-axis key:", xAxisKey);
-  console.log("Using Y-axis key:", yAxisKey);
-
   return (
-    <div className="bg-white mt-6">
-      <ResponsiveContainer width="100%" height={300}>
+    <div className="bg-white mt-6 p-4 rounded-lg border border-gray-100 shadow-sm">
+      <ResponsiveContainer width="100%" height={320}>
         <BarChart
-          data={chartData}
-          margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+          data={data}
+          margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+          barCategoryGap="20%"
         >
-          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+          {/* Griglia più sottile e elegante */}
+          <CartesianGrid
+            strokeDasharray="3 3"
+            stroke="#f1f5f9"
+            vertical={false}
+          />
 
           <XAxis
-            dataKey={xAxisKey}
-            tick={{ fontSize: 12, fill: "#555" }}
-            stroke="#ddd"
+            dataKey="category"
+            tick={{ fontSize: 12, fill: "#64748b", fontWeight: 500 }}
+            stroke="#e2e8f0"
+            tickLine={false}
             axisLine={false}
           />
+
           <YAxis
-            tick={{ fontSize: 12, fill: "#555" }}
-            stroke="#ddd"
+            tick={{ fontSize: 11, fill: "#64748b" }}
+            stroke="#e2e8f0"
+            tickLine={false}
             axisLine={false}
+            tickFormatter={(value) => `€${value}`}
           />
 
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip
+            content={<CustomTooltip />}
+            cursor={{ fill: "rgba(59, 130, 246, 0.1)" }}
+          />
 
-          <Bar dataKey={yAxisKey} fill="#875cf5" radius={[4, 4, 0, 0]}>
-            {chartData.map((entry, index) => (
+          <Bar dataKey="amount" radius={[6, 6, 0, 0]} maxBarSize={60}>
+            {data.map((entry, index) => (
               <Cell key={`cell-${index}`} fill={getBarColor(index)} />
             ))}
           </Bar>
