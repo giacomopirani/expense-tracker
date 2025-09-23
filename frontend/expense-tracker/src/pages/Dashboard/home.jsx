@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ExpenseTransactions from "../../components/dashboard/expenseTransactions";
 import DashboardLayout from "../../components/layouts/dashboardLayout";
 import { useUserAuth } from "../../hooks/useUserAuth";
 import { API_PATHS } from "../../utils/apiPaths";
@@ -77,10 +76,14 @@ const Home = () => {
             totalExpense={dashboardData?.totalExpense || 0}
           /> */}
 
-          <ExpenseTransactions
+          {/*  <ExpenseTransactions
             transactions={dashboardData?.last30DaysExpenses?.transactions || []}
             onSeeMore={() => navigate("/expense")}
           />
+
+          <Last30DaysExpenses
+            data={dashboardData?.last30DaysExpenses?.transactions || []}
+          /> */}
         </div>
       </div>
     </DashboardLayout>
