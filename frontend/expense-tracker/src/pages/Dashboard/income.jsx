@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import DeleteAlert from "../../components/deleteAlert";
 import AddIncomeForm from "../../components/income/addIncomeForm";
 import IncomeList from "../../components/income/incomeList";
 import IncomeOverview from "../../components/income/incomeOverview";
@@ -77,7 +78,20 @@ const Income = () => {
   };
 
   // Delete Income
-  const deleteIncome = async (id) => {};
+  const deleteIncome = async (id) => {
+    try {
+      await axiosInstance.delete(API_PATHS.INCOME.DELETE_INCOME(id));
+
+      setOpenDeleteAlert({ show: false, data: null });
+      toast.success("Income details deleted succesfully");
+      fetchIncomeDetails();
+    } catch (error) {
+      console.error(
+        "Error deleting income:",
+        error.response?.data?.message || error.message
+      );
+    }
+  };
 
   // Handle download income details
   const handleDownloadIncomeDatails = async () => {};
@@ -113,6 +127,17 @@ const Income = () => {
           title="Add Income"
         >
           <AddIncomeForm onAddIncome={handleAddIncome} />
+        </Modal>
+
+        <Modal
+          isOpen={openDeleteAlert.show}
+          onClose={() => setOpenDeleteAlert({ show: false, data: null })}
+          title="Delete Income"
+        >
+          <DeleteAlert
+            content="Are you sure you want to delete this income detail?"
+            onDelete={() => deleteIncome(openDeleteAlert.data)}
+          />
         </Modal>
       </div>
     </DashboardLayout>
