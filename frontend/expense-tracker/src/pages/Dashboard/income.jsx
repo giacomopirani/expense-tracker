@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import AddIncomeForm from "../../components/income/addIncomeForm";
+import IncomeList from "../../components/income/incomeList";
 import IncomeOverview from "../../components/income/incomeOverview";
 import DashboardLayout from "../../components/layouts/dashboardLayout";
 import Modal from "../../components/modal";
@@ -97,6 +98,13 @@ const Income = () => {
               onAddIncome={() => setOpenAddIncomeModal(true)}
             />
           </div>
+
+          <IncomeList
+            transactions={incomeData}
+            onDelete={(id) => {
+              setOpenDeleteAlert({ show: true, data: id });
+            }}
+          />
         </div>
 
         <Modal
