@@ -56,7 +56,7 @@ const Income = () => {
           <div className="">
             <IncomeOverview
               transactions={incomeData}
-              onAddIncome={() => setOpendAddIncomeModal(true)}
+              onAddIncome={() => setOpenAddIncomeModal(true)}
             />
           </div>
         </div>
