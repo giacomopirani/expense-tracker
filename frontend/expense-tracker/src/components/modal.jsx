@@ -8,7 +8,7 @@ const Modal = ({ children, isOpen, onClose, title }) => {
         <div className="relative bg-white rounded-lg shadow-sm dark:bg-stone-200">
           {/* Modal Header */}
 
-          <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-stone-600 border-stone-200">
+          <div className="flex items-center justify-between bg-white p-4 md:p-5 border-b rounded-t dark:border-stone-600 border-stone-200">
             <h3 className="text-lg font-medium text-stone-800">{title}</h3>
 
             <button
@@ -35,7 +35,7 @@ const Modal = ({ children, isOpen, onClose, title }) => {
           </div>
 
           {/* Modal body */}
-          <div className="p-4 md:p-5 space-y-4">{children}</div>
+          <div className="p-4 md:p-5 space-y-4 bg-white">{children}</div>
         </div>
       </div>
     </div>

@@ -2,7 +2,6 @@ import {
   Bar,
   BarChart,
   CartesianGrid,
-  Cell,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -18,26 +17,6 @@ const CustomBarChart = ({ data }) => {
       </div>
     );
   }
-
-  // Colori moderni e attraenti
-  const getBarColor = (index, isHovered = false) => {
-    const colors = [
-      "#3b82f6", // Blue
-      "#ef4444", // Red
-      "#10b981", // Green
-      "#f59e0b", // Yellow
-      "#8b5cf6", // Purple
-      "#06b6d4", // Cyan
-      "#f97316", // Orange
-      "#84cc16", // Lime
-    ];
-
-    if (isHovered) {
-      return colors[index % colors.length] + "dd"; // Slightly transparent on hover
-    }
-
-    return colors[index % colors.length];
-  };
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
@@ -93,16 +72,14 @@ const CustomBarChart = ({ data }) => {
             tickFormatter={(value) => `€${value}`}
           />
 
-          <Tooltip
-            content={<CustomTooltip />}
-            cursor={{ fill: "rgba(59, 130, 246, 0.1)" }}
-          />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: "#E7E5E4" }} />
 
-          <Bar dataKey="amount" radius={[6, 6, 0, 0]} maxBarSize={60}>
-            {data.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={getBarColor(index)} />
-            ))}
-          </Bar>
+          <Bar
+            dataKey="amount"
+            radius={[6, 6, 0, 0]}
+            maxBarSize={60}
+            fill="#57534E"
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>

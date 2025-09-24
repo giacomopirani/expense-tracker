@@ -2,7 +2,7 @@ const CustomTooltip = ({ active, payload }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-white shadow-md rounded-lg p-2 border border-stone-300">
-        <p className="text-xs font-semibold text-yellow-700">
+        <p className="text-xs font-semibold text-stone-700">
           {payload[0].name}
         </p>
         <p className="text-sm text-stone-600">

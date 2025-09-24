@@ -16,7 +16,7 @@ const Income = () => {
   });
   const [openAddIncomeModal, setOpenAddIncomeModal] = useState(false);
 
-  // Get All Income Details
+  // Get All Income Detailsc
   const fetchIncomeDetails = async () => {
     if (loading) return;
 
