@@ -53,7 +53,7 @@ const CustomBarChart = ({ data }) => {
             />
             <span className="text-sm text-gray-600">€</span>
             <span className="text-lg font-bold text-gray-900">
-              {payload[0].value.toLocaleString()}
+              {payload[0].value.toString()}
             </span>
           </div>
         </div>

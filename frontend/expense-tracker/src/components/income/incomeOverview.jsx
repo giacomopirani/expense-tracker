@@ -8,7 +8,7 @@ const IncomeOverview = ({ transactions, onAddIncome }) => {
 
   useEffect(() => {
     const result = prepareIncomeBarChartData(transactions);
-    console.log("📊 chartData:", result);
+
     setChartData(result);
 
     return () => {};
@@ -31,7 +31,12 @@ const IncomeOverview = ({ transactions, onAddIncome }) => {
       </div>
 
       <div className="mt-10">
-        <CustomBarChart data={chartData} />
+        <CustomBarChart
+          data={chartData.map((item) => ({
+            category: item.month ?? item.category,
+            amount: item.amount,
+          }))}
+        />
       </div>
     </div>
   );
