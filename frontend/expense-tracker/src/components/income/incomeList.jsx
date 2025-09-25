@@ -14,7 +14,7 @@ const IncomeList = ({ transactions, onDelete }) => {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 ">
+      <div className="grid grid-cols-1 md:grid-cols-2">
         {transactions?.map((income) => (
           <TransactionInfoCard
             key={income._id}
