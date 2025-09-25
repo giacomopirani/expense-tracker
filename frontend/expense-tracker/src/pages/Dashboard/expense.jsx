@@ -3,6 +3,7 @@ import ExpenseOverview from "../../components/expense/expenseOverview";
 import DashboardLayout from "../../components/layouts/dashboardLayout";
 import { useUserAuth } from "../../hooks/useUserAuth";
 import { API_PATHS } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance";
 
 const Expense = () => {
   useUserAuth();
