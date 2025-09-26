@@ -10,18 +10,17 @@ const SideMenu = ({ activeMenu }) => {
   const navigate = useNavigate();
 
   const handleClick = (route) => {
-    if (route === "logout") {
+    if (route === "/logout") {
       handleLogout();
-      return;
+    } else {
+      navigate(route);
     }
-
-    navigate(route);
   };
 
   const handleLogout = () => {
-    localStorage.clear();
+    localStorage.removeItem("token");
     clearUser();
-    navigate("/login");
+    navigate("/login", { replace: true });
   };
 
   return (
