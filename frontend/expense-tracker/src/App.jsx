@@ -6,7 +6,7 @@ import {
   Routes,
 } from "react-router-dom";
 import UserProvider from "./context/userContext";
-import Login from "./pages/Auth/Login";
+import Login from "./pages/Auth/login";
 import SignUp from "./pages/Auth/signUp";
 import Expense from "./pages/Dashboard/expense";
 import Home from "./pages/Dashboard/home";

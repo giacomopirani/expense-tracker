@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../assets/img/logo.png";
+import Logo from "../../../public/logo.png";
 import SideMenu from "./sidemenu";
 
 const Navbar = ({ activeMenu }) => {
@@ -32,7 +32,7 @@ const Navbar = ({ activeMenu }) => {
       />
 
       {opendSideMenu && (
-        <div className="fixed top-[61px] -ml-4 bg-white">
+        <div className="fixed top-[80px] -ml-4 bg-white">
           <SideMenu activeMenu={activeMenu} />
         </div>
       )}

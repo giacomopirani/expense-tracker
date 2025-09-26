@@ -94,7 +94,7 @@ const SignUp = () => {
                 value={fullName}
                 onChange={({ target }) => setFullName(target.value)}
                 label="Name"
-                placeholder="John"
+                placeholder="Jack"
                 type="text"
               />
               <Input
@@ -102,7 +102,7 @@ const SignUp = () => {
                 onChange={({ target }) => setEmail(target.value)}
                 label="Email"
                 type="text"
-                placeholder="johnlorkan@example.com"
+                placeholder="jack@example.com"
               />
             </div>
 
