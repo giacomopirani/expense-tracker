@@ -30,7 +30,8 @@ const SignUp = () => {
       return;
     }
 
-    if (!validateEmail(email)) {
+    const cleanedEmail = email.trim().toLowerCase();
+    if (!validateEmail(cleanedEmail)) {
       setError("Please enter a valid email.");
       return;
     }
@@ -101,7 +102,8 @@ const SignUp = () => {
                 value={email}
                 onChange={({ target }) => setEmail(target.value)}
                 label="Email"
-                type="text"
+                autoCapitalize="none"
+                type="email"
                 placeholder="jack@example.com"
               />
             </div>
