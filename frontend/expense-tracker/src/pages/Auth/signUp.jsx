@@ -53,7 +53,7 @@ const SignUp = () => {
 
       const response = await axiosInstance.post(API_PATHS.AUTH.REGISTER, {
         fullName,
-        email,
+        email: cleanedEmail,
         password,
         profileImageUrl,
       });
@@ -102,8 +102,10 @@ const SignUp = () => {
                 value={email}
                 onChange={({ target }) => setEmail(target.value)}
                 label="Email"
-                autoCapitalize="none"
                 type="email"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck={false}
                 placeholder="jack@example.com"
               />
             </div>
