@@ -13,7 +13,11 @@ const app = express();
 //Middleware for CORS
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || "*",
+    origin: [
+      process.env.CLIENT_URL ||
+        "https://expense-tracker-frontend-23la.onrender.com",
+    ],
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
