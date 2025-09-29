@@ -11,14 +11,22 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const app = express();
 
 //Middleware for CORS
+const allowedOrigins = [
+  "http://localhost:5173", // frontend locale
+  process.env.CLIENT_URL, // frontend su Render
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: [
-      process.env.CLIENT_URL ||
-        "https://expense-tracker-frontend-23la.onrender.com",
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
