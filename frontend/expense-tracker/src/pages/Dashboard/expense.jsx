@@ -6,6 +6,7 @@ import ExpenseList from "../../components/expense/expenseList";
 import ExpenseOverview from "../../components/expense/expenseOverview";
 import DashboardLayout from "../../components/layouts/dashboardLayout";
 import Modal from "../../components/modal";
+import { useLoading } from "../../context/loaderContext";
 import { useUserAuth } from "../../hooks/useUserAuth";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
@@ -13,7 +14,7 @@ import axiosInstance from "../../utils/axiosInstance";
 const Expense = () => {
   useUserAuth();
   const [expenseData, setExpenseData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { showLoader, hideLoader } = useLoading();
   const [openDeleteAlert, setOpenDeleteAlert] = useState({
     show: false,
     data: null,
@@ -22,11 +23,8 @@ const Expense = () => {
 
   // Get All Expense Detailsc
   const fetchExpenseDetails = async () => {
-    if (loading) return;
-
-    setLoading(true);
-
     try {
+      showLoader();
       const response = await axiosInstance.get(
         `${API_PATHS.EXPENSE.GET_ALL_EXPENSE}`
       );
@@ -37,7 +35,7 @@ const Expense = () => {
     } catch (error) {
       console.log("Something went wrong. Please try again.", error);
     } finally {
-      setLoading(false);
+      hideLoader();
     }
   };
 
@@ -61,6 +59,7 @@ const Expense = () => {
     }
 
     try {
+      showLoader();
       await axiosInstance.post(API_PATHS.EXPENSE.ADD_EXPENSE, {
         category,
         amount,
@@ -76,12 +75,15 @@ const Expense = () => {
         "Error adding expense:",
         error.response?.data?.message || error.message
       );
+    } finally {
+      hideLoader();
     }
   };
 
   // Delete Expense
   const deleteExpense = async (id) => {
     try {
+      showLoader();
       await axiosInstance.delete(API_PATHS.EXPENSE.DELETE_EXPENSE(id));
 
       setOpenDeleteAlert({ show: false, data: null });
@@ -92,12 +94,15 @@ const Expense = () => {
         "Error deleting expense:",
         error.response?.data?.message || error.message
       );
+    } finally {
+      hideLoader();
     }
   };
 
   // Handle download expense details
   const handleDownloadExpenseDetails = async () => {
     try {
+      showLoader();
       const response = await axiosInstance.get(
         API_PATHS.EXPENSE.DOWNLOAD_EXPENSE,
         { responseType: "blob" }
@@ -114,6 +119,8 @@ const Expense = () => {
     } catch (error) {
       console.error("Error downloading expense details:", error);
       toast.error("Failed to download expense details. Please try again.");
+    } finally {
+      hideLoader();
     }
   };
 

@@ -6,6 +6,7 @@ import IncomeList from "../../components/income/incomeList";
 import IncomeOverview from "../../components/income/incomeOverview";
 import DashboardLayout from "../../components/layouts/dashboardLayout";
 import Modal from "../../components/modal";
+import { useLoading } from "../../context/loaderContext";
 import { useUserAuth } from "../../hooks/useUserAuth";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
@@ -13,7 +14,7 @@ import axiosInstance from "../../utils/axiosInstance";
 const Income = () => {
   useUserAuth();
   const [incomeData, setIncomeData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { showLoader, hideLoader } = useLoading();
   const [openDeleteAlert, setOpenDeleteAlert] = useState({
     show: false,
     data: null,
@@ -22,11 +23,8 @@ const Income = () => {
 
   // Get All Income Detailsc
   const fetchIncomeDetails = async () => {
-    if (loading) return;
-
-    setLoading(true);
-
     try {
+      showLoader();
       const response = await axiosInstance.get(
         `${API_PATHS.INCOME.GET_ALL_INCOME}`
       );
@@ -37,7 +35,7 @@ const Income = () => {
     } catch (error) {
       console.log("Something went wrong. Please try again.", error);
     } finally {
-      setLoading(false);
+      hideLoader();
     }
   };
 
@@ -61,6 +59,7 @@ const Income = () => {
     }
 
     try {
+      showLoader();
       await axiosInstance.post(API_PATHS.INCOME.ADD_INCOME, {
         source,
         amount,
@@ -76,12 +75,15 @@ const Income = () => {
         "Error adding income:",
         error.response?.data?.message || error.message
       );
+    } finally {
+      hideLoader();
     }
   };
 
   // Delete Income
   const deleteIncome = async (id) => {
     try {
+      showLoader();
       await axiosInstance.delete(API_PATHS.INCOME.DELETE_INCOME(id));
 
       setOpenDeleteAlert({ show: false, data: null });
@@ -92,12 +94,15 @@ const Income = () => {
         "Error deleting income:",
         error.response?.data?.message || error.message
       );
+    } finally {
+      hideLoader();
     }
   };
 
   // Handle download income details
   const handleDownloadIncomeDetails = async () => {
     try {
+      showLoader();
       const response = await axiosInstance.get(
         API_PATHS.INCOME.DOWNLOAD_INCOME,
         { responseType: "blob" }
@@ -114,6 +119,8 @@ const Income = () => {
     } catch (error) {
       console.error("Error downloading income details:", error);
       toast.error("Failed to download income details. Please try again.");
+    } finally {
+      hideLoader();
     }
   };
 
