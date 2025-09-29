@@ -10,24 +10,25 @@ const generateToken = (id) => {
 exports.registerUser = async (req, res) => {
   const { fullName, email, password, profileImageUrl } = req.body;
 
-  //Validation check for missing fields
-  if (!fullName || !email || !password || !profileImageUrl) {
-    return res.status(400).json({ message: "All fields are required" });
+  // Rimuovi profileImageUrl dai campi obbligatori
+  if (!fullName || !email || !password) {
+    return res
+      .status(400)
+      .json({ message: "Name, email and password are required" });
   }
 
   try {
-    //Check if email already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "Email already in use" });
     }
 
-    //Create the user
+    // Usa profileImageUrl se presente, altrimenti stringa vuota o un'immagine default
     const user = await User.create({
       fullName,
       email,
       password,
-      profileImageUrl,
+      profileImageUrl: profileImageUrl || "", // Valore di fallback
     });
 
     res.status(201).json({
@@ -41,9 +42,10 @@ exports.registerUser = async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error registering user", error: err.message });
+    res.status(500).json({
+      message: "Error registering user",
+      error: err.message,
+    });
   }
 };
 
