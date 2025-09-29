@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { HiOutlineMenu, HiOutlineX } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../../public/logo.png";
+import Logo from "../../assets/img/logo-w.png";
 import SideMenu from "./sidemenu";
 
 const Navbar = ({ activeMenu }) => {

@@ -1,6 +1,6 @@
 import { LuTrendingUpDown } from "react-icons/lu";
-import Logo from "../../../public/logo.png";
 import GraphicCard from "../../assets/img/graphic-card.jpeg";
+import Logo from "../../assets/img/logo-w.png";
 
 const AuthLayout = ({ children }) => {
   return (
