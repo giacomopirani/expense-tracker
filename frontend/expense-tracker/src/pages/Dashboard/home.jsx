@@ -10,6 +10,7 @@ import RecentIncome from "../../components/dashboard/recentIncome";
 import RecentIncomeWithChart from "../../components/dashboard/recentIncomeWithChart";
 import RecentTransactions from "../../components/dashboard/recentTransactions";
 import DashboardLayout from "../../components/layouts/dashboardLayout";
+import { useLoading } from "../../context/loaderContext";
 import { useUserAuth } from "../../hooks/useUserAuth";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
@@ -19,6 +20,7 @@ const Home = () => {
   useUserAuth();
 
   const navigate = useNavigate();
+  const { showLoader, hideLoader } = useLoading();
 
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,6 +31,7 @@ const Home = () => {
     setLoading(true);
 
     try {
+      showLoader();
       const response = await axiosInstance.get(
         `${API_PATHS.DASHBOARD.GET_DATA}`
       );
@@ -39,6 +42,7 @@ const Home = () => {
     } catch (error) {
       console.log("Something went wrong. Please try again.", error);
     } finally {
+      hideLoader();
       setLoading(false);
     }
   };
