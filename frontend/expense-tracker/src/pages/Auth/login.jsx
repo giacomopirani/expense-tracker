@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/inputs/input";
 import AuthLayout from "../../components/layouts/authLayout";
+import LoadingOverlay from "../../components/loader/loadingOverlay";
 import { UserContext } from "../../context/userContext";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
@@ -11,6 +12,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { updateUser } = useContext(UserContext);
 
@@ -18,6 +20,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (!validateEmail(email)) {
       setError("Please enter a valid email.");
@@ -47,8 +50,10 @@ const Login = () => {
     } catch (error) {
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
+        setIsLoading(false);
       } else {
         setError("Something went wrong. Please try again.");
+        setIsLoading(false);
       }
     }
   };
@@ -56,6 +61,7 @@ const Login = () => {
   return (
     <AuthLayout>
       <div className="lg:w-[70%] h-3/4 flex flex-col justify-start mt-10 mx-auto">
+        <LoadingOverlay isVisible={isLoading} message="Accesso in corso..." />
         <h3 className="text-2xl font-semibold text-stone-800">Welcome</h3>
         <p className="text-xm text-stone-600 mt-[5px] mb-6">
           Enter your details to log in
@@ -67,6 +73,7 @@ const Login = () => {
             onChange={({ target }) => setEmail(target.value)}
             label="Email"
             type="text"
+            disabled={isLoading}
             placeholder="jack@example.com"
           />
 
@@ -75,6 +82,7 @@ const Login = () => {
             onChange={({ target }) => setPassword(target.value)}
             label="Password"
             type="password"
+            disabled={isLoading}
             placeholder="Minimum 8 characters"
           />
 
@@ -83,8 +91,9 @@ const Login = () => {
           <button
             type="submit"
             className="w-full bg-primary text-white py-3 rounded-lg mt-6 hover:bg-stone-500 transition"
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? "Accesso in corso..." : "Login"}
           </button>
 
           <p className="text-[13px] text-stone-800 mt-3">

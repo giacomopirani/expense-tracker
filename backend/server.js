@@ -11,10 +11,9 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const app = express();
 
 //Middleware for CORS
-const allowedOrigins = [
-  "http://localhost:5173", // frontend locale
-  process.env.CLIENT_URL, // frontend su Render
-].filter(Boolean);
+const allowedOrigins = ["http://localhost:5173", process.env.CLIENT_URL].filter(
+  Boolean
+);
 
 app.use(
   cors({
