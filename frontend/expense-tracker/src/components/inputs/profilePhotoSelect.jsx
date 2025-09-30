@@ -30,7 +30,6 @@ const ProfilePhotoSelect = ({ image, setImage }) => {
       <input
         type="file"
         accept="image/*"
-        capture="environment"
         ref={inputRef}
         onChange={handleImageChange}
         className="hidden"
