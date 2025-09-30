@@ -9,7 +9,7 @@ export const LoadingProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
 
   const showLoader = () => setLoading(true);
-  const hideLoader = (delay = 1500) => {
+  const hideLoader = (delay = 1000) => {
     setTimeout(() => {
       setLoading(false);
     }, delay);
