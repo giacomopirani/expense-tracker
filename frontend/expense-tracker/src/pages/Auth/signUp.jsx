@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Input from "../../components/inputs/input";
 import ProfilePhotoSelect from "../../components/inputs/profilePhotoSelect";
 import AuthLayout from "../../components/layouts/authLayout";
+import LoadingOverlay from "../../components/loader/loadingOverlay";
 import { UserContext } from "../../context/userContext";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
@@ -14,6 +15,7 @@ const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const [error, setError] = useState(null);
 
@@ -22,6 +24,7 @@ const SignUp = () => {
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     let profileImageUrl = "";
 
@@ -70,8 +73,10 @@ const SignUp = () => {
     } catch (error) {
       if (error.response && error.response.data.message) {
         setError(error.response.data.message);
+        setIsLoading(false);
       } else {
         setError("Something went wrong, Please try again.");
+        setIsLoading(false);
       }
     }
   };
@@ -79,6 +84,7 @@ const SignUp = () => {
   return (
     <AuthLayout>
       <div className="lg:w-[100%] h-auto mt-10 md:mt-10 flex flex-col justify-start">
+        <LoadingOverlay isVisible={isLoading} message="Accesso in corso..." />
         <h3 className="text-xl font-semibold text-stone-800">
           Create your Account
         </h3>
@@ -95,6 +101,7 @@ const SignUp = () => {
                 value={fullName}
                 onChange={({ target }) => setFullName(target.value)}
                 label="Name"
+                disabled={isLoading}
                 placeholder="Jack"
                 type="text"
               />
@@ -106,6 +113,7 @@ const SignUp = () => {
                 autoCapitalize="none"
                 autoCorrect="off"
                 spellCheck={false}
+                disabled={isLoading}
                 placeholder="jack@example.com"
               />
             </div>
@@ -115,6 +123,7 @@ const SignUp = () => {
               onChange={({ target }) => setPassword(target.value)}
               label="Password"
               type="password"
+              disabled={isLoading}
               placeholder="Minimum 8 characters"
             />
           </div>
@@ -123,8 +132,9 @@ const SignUp = () => {
           <button
             type="submit"
             className="w-full bg-primary text-white py-3 rounded-lg mt-6 hover:bg-stone-500 transition"
+            disabled={isLoading}
           >
-            Sign Up
+            {isLoading ? "Accesso in corso..." : "Sign Up"}
           </button>
 
           <p className="text-[13px] text-stone-800 mt-3">
