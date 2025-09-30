@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { IoMdCard } from "react-icons/io";
 import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
@@ -15,6 +16,55 @@ import { useUserAuth } from "../../hooks/useUserAuth";
 import { API_PATHS } from "../../utils/apiPaths";
 import axiosInstance from "../../utils/axiosInstance";
 import { addThousandsSeparetor } from "../../utils/helper";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    scale: 0.95,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 15,
+      duration: 0.6,
+    },
+  },
+};
+
+const gridItemVariants = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+    scale: 0.9,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 80,
+      damping: 12,
+      duration: 0.7,
+    },
+  },
+};
 
 const Home = () => {
   useUserAuth();
@@ -55,62 +105,92 @@ const Home = () => {
   return (
     <DashboardLayout activeMenu="Dashboard">
       <div className="my-5 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <InfoCard
-            icon={<IoMdCard />}
-            label="Total Balance"
-            value={addThousandsSeparetor(dashboardData?.totalBalance || 0)}
-            color="bg-primary"
-          />
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div variants={cardVariants}>
+            <InfoCard
+              icon={<IoMdCard />}
+              label="Total Balance"
+              value={addThousandsSeparetor(dashboardData?.totalBalance || 0)}
+              color="bg-primary"
+            />
+          </motion.div>
 
-          <InfoCard
-            icon={<LuWalletMinimal />}
-            label="Total Income"
-            value={addThousandsSeparetor(dashboardData?.totalIncome || 0)}
-            color="bg-green-500"
-          />
+          <motion.div variants={cardVariants}>
+            <InfoCard
+              icon={<LuWalletMinimal />}
+              label="Total Income"
+              value={addThousandsSeparetor(dashboardData?.totalIncome || 0)}
+              color="bg-green-500"
+            />
+          </motion.div>
 
-          <InfoCard
-            icon={<LuHandCoins />}
-            label="Total Expense"
-            value={addThousandsSeparetor(dashboardData?.totalExpense || 0)}
-            color="bg-red-500"
-          />
-        </div>
+          <motion.div variants={cardVariants}>
+            <InfoCard
+              icon={<LuHandCoins />}
+              label="Total Expense"
+              value={addThousandsSeparetor(dashboardData?.totalExpense || 0)}
+              color="bg-red-500"
+            />
+          </motion.div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-          <RecentTransactions
-            transactions={dashboardData?.recentTransactions}
-            onSeeMore={() => navigate("/expense")}
-          />
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div variants={gridItemVariants}>
+            <RecentTransactions
+              transactions={dashboardData?.recentTransactions}
+              onSeeMore={() => navigate("/expense")}
+            />
+          </motion.div>
 
-          <FinanceOverview
-            totalBalance={dashboardData?.totalBalance || 0}
-            totalIncome={dashboardData?.totalIncome || 0}
-            totalExpense={dashboardData?.totalExpense || 0}
-          />
+          <motion.div variants={gridItemVariants}>
+            <FinanceOverview
+              totalBalance={dashboardData?.totalBalance || 0}
+              totalIncome={dashboardData?.totalIncome || 0}
+              totalExpense={dashboardData?.totalExpense || 0}
+            />
+          </motion.div>
 
-          <ExpenseTransactions
-            transactions={dashboardData?.last30DaysExpenses?.transactions || []}
-            onSeeMore={() => navigate("/expense")}
-          />
+          <motion.div variants={gridItemVariants}>
+            <ExpenseTransactions
+              transactions={
+                dashboardData?.last30DaysExpenses?.transactions || []
+              }
+              onSeeMore={() => navigate("/expense")}
+            />
+          </motion.div>
 
-          <Last30DaysExpenses
-            data={dashboardData?.last30DaysExpenses?.transactions || []}
-          />
+          <motion.div variants={gridItemVariants}>
+            <Last30DaysExpenses
+              data={dashboardData?.last30DaysExpenses?.transactions || []}
+            />
+          </motion.div>
 
-          <RecentIncomeWithChart
-            data={
-              dashboardData?.last60DaysIncome?.transactions?.slice(0, 4) || []
-            }
-            totalIncome={dashboardData?.totalIncome || 0}
-          />
+          <motion.div variants={gridItemVariants}>
+            <RecentIncomeWithChart
+              data={
+                dashboardData?.last60DaysIncome?.transactions?.slice(0, 4) || []
+              }
+              totalIncome={dashboardData?.totalIncome || 0}
+            />
+          </motion.div>
 
-          <RecentIncome
-            transactions={dashboardData?.last60DaysIncome?.transactions || []}
-            onSeeMore={() => navigate("/income")}
-          />
-        </div>
+          <motion.div variants={gridItemVariants}>
+            <RecentIncome
+              transactions={dashboardData?.last60DaysIncome?.transactions || []}
+              onSeeMore={() => navigate("/income")}
+            />
+          </motion.div>
+        </motion.div>
       </div>
     </DashboardLayout>
   );
