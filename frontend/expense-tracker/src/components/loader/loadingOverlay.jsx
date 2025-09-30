@@ -56,7 +56,7 @@ const LoadingOverlay = ({ isVisible, message = "Caricamento in corso..." }) => {
           width: "80px",
           height: "80px",
           border: "4px solid rgba(255, 255, 255, 0.1)",
-          borderTop: "4px solid #4F46E5",
+          borderTop: "4px solid #78716C",
           borderRadius: "50%",
           animation: "spin 1s linear infinite",
           marginBottom: "24px",
@@ -104,7 +104,7 @@ const LoadingOverlay = ({ isVisible, message = "Caricamento in corso..." }) => {
         <div
           style={{
             height: "100%",
-            backgroundColor: "#4F46E5",
+            backgroundColor: "#78716C",
             animation: "progress 2s ease-in-out infinite",
           }}
         />
