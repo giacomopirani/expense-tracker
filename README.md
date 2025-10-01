@@ -15,6 +15,7 @@ You can add, edit and delete transactions, view reports and have a clear overvie
 🔗 [Expense Tracker - Manage your finances easily](https://expense-tracker-frontend-23la.onrender.com)
 
 ![Screenshot](/frontend/expense-tracker/public/dashboard.png)
+![Screenshot](/frontend/expense-tracker/public/dashboard-chart.png)
 
 ## 🛠️ Tech Stack
 
