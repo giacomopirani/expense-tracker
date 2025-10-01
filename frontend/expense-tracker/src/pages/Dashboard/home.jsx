@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { IoMdCard } from "react-icons/io";
-import { LuHandCoins, LuWalletMinimal } from "react-icons/lu";
+import { FaBalanceScale } from "react-icons/fa";
+import { GrMoney } from "react-icons/gr";
+import { LuHandCoins } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 import InfoCard from "../../components/cards/infoCard";
 import ExpenseTransactions from "../../components/dashboard/expenseTransactions";
@@ -113,7 +114,7 @@ const Home = () => {
         >
           <motion.div variants={cardVariants}>
             <InfoCard
-              icon={<IoMdCard />}
+              icon={<FaBalanceScale />}
               label="Total Balance"
               value={addThousandsSeparetor(dashboardData?.totalBalance || 0)}
               color="bg-primary"
@@ -122,7 +123,7 @@ const Home = () => {
 
           <motion.div variants={cardVariants}>
             <InfoCard
-              icon={<LuWalletMinimal />}
+              icon={<GrMoney />}
               label="Total Income"
               value={addThousandsSeparetor(dashboardData?.totalIncome || 0)}
               color="bg-green-500"
