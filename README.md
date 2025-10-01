@@ -1,10 +1,5 @@
 # Expense Tracker
 
-<p align="center">
-  <img src="../expense-tracker/frontend/expense-tracker/public/logo.png" alt="Logo" width="120" style="border-radius: 50%;" />
-
-</p>
-
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![React](https://img.shields.io/badge/React-18-blue?logo=react)]()
 [![Node.js](https://img.shields.io/badge/Node.js-18-green?logo=node.js)]()
@@ -15,11 +10,11 @@
 Expense Tracker is a **full-stack MERN** application that helps you manage your expenses and income.  
 You can add, edit and delete transactions, view reports and have a clear overview of your personal finances.
 
-## 🚀 Demo
+## Demo
 
 🔗 [Expense Tracker - Manage your finances easily](https://expense-tracker-frontend-23la.onrender.com)
 
-![Screenshot](../expense-tracker/frontend/expense-tracker/public/dashboard.png)
+![Screenshot](/frontend/expense-tracker/public/dashboard.png)
 
 ## 🛠️ Tech Stack
 
@@ -45,7 +40,7 @@ You can add, edit and delete transactions, view reports and have a clear overvie
 Clone repository:
 
 ```bash
-git clone https://github.com/<giacomopirani>/expense-tracker.git
+git clone https://github.com/giacomopirani/expense-tracker.git
 cd expense-tracker
 
 cd backend
