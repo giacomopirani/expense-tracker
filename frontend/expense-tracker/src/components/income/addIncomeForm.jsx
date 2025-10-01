@@ -31,7 +31,8 @@ const AddIncomeForm = ({ onAddIncome }) => {
         value={income.amount}
         onChange={({ target }) => handleChange("amount", target.value)}
         label="Amount"
-        placeholder="0"
+        placeholder="0.00"
+        step="0.01"
         type="number"
         prefix="€"
       />

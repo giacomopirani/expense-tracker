@@ -1,9 +1,6 @@
-import {
-  LuTrash2,
-  LuTrendingDown,
-  LuTrendingUp,
-  LuUtensils,
-} from "react-icons/lu";
+import { LuTrash2, LuTrendingDown, LuTrendingUp } from "react-icons/lu";
+
+import { GiMoneyStack } from "react-icons/gi";
 
 const TransactionInfoCard = ({
   title,
@@ -22,7 +19,7 @@ const TransactionInfoCard = ({
         {icon ? (
           <img src={icon} alt={title} className="w-6 h-6" />
         ) : (
-          <LuUtensils />
+          <GiMoneyStack className="w-10 h-10" />
         )}
       </div>
 
@@ -35,7 +32,11 @@ const TransactionInfoCard = ({
         <div className="flex items-center gap-2">
           {!hideDeleteBtn && (
             <button
-              className="text-stone-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+              className="
+    text-stone-400 hover:text-red-500
+    opacity-100 md:opacity-0 md:group-hover:opacity-100
+    transition-opacity cursor-pointer
+  "
               onClick={onDelete}
             >
               <LuTrash2 size={18} />
