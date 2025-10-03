@@ -7,12 +7,15 @@ const generateToken = (id) => {
 };
 
 //Register User
+//Register User
 exports.registerUser = async (req, res) => {
   const { fullName, email, password, profileImageUrl } = req.body;
 
-  //Validation check for missing fields
-  if (!fullName || !email || !password || !profileImageUrl) {
-    return res.status(400).json({ message: "All fields are required" });
+  //Validation check for missing fields (profileImageUrl è opzionale)
+  if (!fullName || !email || !password) {
+    return res
+      .status(400)
+      .json({ message: "Full name, email and password are required" });
   }
 
   try {
@@ -22,12 +25,12 @@ exports.registerUser = async (req, res) => {
       return res.status(400).json({ message: "Email already in use" });
     }
 
-    //Create the user
+    //Create the user (con o senza immagine)
     const user = await User.create({
       fullName,
       email,
       password,
-      profileImageUrl,
+      profileImageUrl: profileImageUrl || null, // oppure un'immagine di default
     });
 
     res.status(201).json({
